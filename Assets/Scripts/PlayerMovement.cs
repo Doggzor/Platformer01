@@ -54,13 +54,22 @@ public class PlayerMovement : MonoBehaviour
         DetectState();
         HandleGravity();
 
-        if (state != debugState) Debug.Log(state.ToString());
+        if (state != debugState)
+        {
+            Debug.Log(state.ToString());
+            if (state == State.FALLING)
+                Debug.Log($"Height reached: {gameObject.transform.position.y}");
+        }
     }
 
     private void HandleGravity()
     {
-        rb.gravityScale = state == State.FALLING ? gravityScaleFalling : gravityScaleNormal;
-        if (!Input.GetKey(KeyCode.UpArrow) && state == State.JUMPING) rb.gravityScale = gravityScaleFalling * 1.66f;
+        rb.gravityScale =
+            state == State.FALLING ? gravityScaleFalling :
+            rb.gravityScale > gravityScaleFalling ? rb.gravityScale : //Prevent resetting the gravity mid-air
+            gravityScaleNormal;
+        if (!Input.GetKey(KeyCode.UpArrow) && state == State.JUMPING)
+            rb.gravityScale = gravityScaleFalling * 1.66f;
     }
 
     private void FixedUpdate()
