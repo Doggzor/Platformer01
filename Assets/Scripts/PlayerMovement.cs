@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(collider.bounds.center, collider.size, 0f, Vector2.down, 0.4f, groundLayer);
+        return Physics2D.BoxCast(collider.bounds.center, collider.size * new Vector2(1.05f, 1f), 0f, Vector2.down, 0.4f, groundLayer);
     }
 
     private void DetectState()
