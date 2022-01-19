@@ -87,12 +87,13 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.gravityScale = gravityScaleNormal;
         rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
     }
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(collider.bounds.center, collider.size * new Vector2(1.05f, 1f), 0f, Vector2.down, 0.4f, groundLayer);
+        return Physics2D.BoxCast(collider.bounds.center, collider.size, 0f, Vector2.down, 0.2f, groundLayer);
     }
 
     private void DetectState()
@@ -102,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
             state = Mathf.Abs(dirX) > 0.05f ? State.RUNNING : State.IDLE;
             return;
         }
-        state = rb.velocity.y >= 0.1f ? State.JUMPING : State.FALLING;
+        state = rb.velocity.y > 0.05f ? State.JUMPING : State.FALLING;
     }
     private void HandleState()
     {
