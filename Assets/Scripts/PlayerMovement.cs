@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private new BoxCollider2D collider;
     private LayerMask groundLayer;
-    private GameObject sprite;
+    private Animator animator;
 
     private float gravityScaleNormal = 0f;
     private float gravityScaleFalling = 0f;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
-        sprite = transform.Find("Sprite").gameObject;
+        animator = GetComponent<Animator>();
         groundLayer = LayerMask.GetMask("Ground");
         gravityScaleNormal = rb.gravityScale;
         gravityScaleFalling = rb.gravityScale * gravityFallMultiplier;
@@ -68,16 +68,18 @@ public class PlayerMovement : MonoBehaviour
             if (state == State.FALLING)
                 Debug.Log($"Height reached: {transform.position.y}");
         }
+
+        HandleAnimations();
     }
 
     private void Flip()
     {
-        sprite.transform.localScale *= new Vector2(-1, 1);
+        transform.localScale *= new Vector2(-1, 1);
     }
 
     private bool HasFacingDirectionChanged()
     {
-        return Mathf.Abs(sprite.transform.localScale.x - dirX) > 1.1f;
+        return Mathf.Abs(transform.localScale.x - dirX) > 1.1f;
     }
 
     private void FixedUpdate()
@@ -147,12 +149,16 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case State.IDLE:
+                animator.Play("Idle");
                 break;
             case State.RUNNING:
+                animator.Play("Run");
                 break;
             case State.JUMPING:
+                animator.Play("Jump");
                 break;
             case State.FALLING:
+                animator.Play("Falling");
                 break;
             default:
                 break;
