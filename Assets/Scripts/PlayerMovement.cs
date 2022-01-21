@@ -65,8 +65,6 @@ public class PlayerMovement : MonoBehaviour
         if (state != debugState)
         {
             Debug.Log(state.ToString());
-            if (state == State.FALLING)
-                Debug.Log($"Height reached: {transform.position.y}");
         }
 
         HandleAnimations();
@@ -79,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool HasFacingDirectionChanged()
     {
-        return Mathf.Abs(transform.localScale.x - dirX) > 1.1f;
+        return Mathf.Abs(transform.localScale.x - dirX) > 1.01f;
     }
 
     private void FixedUpdate()
@@ -93,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             Time.time - timeLastGrounded <= coyoteTime)
             Jump();
 
-        
+        EdgeNudge();
     }
 
     private void HandleInput()
@@ -121,6 +119,15 @@ public class PlayerMovement : MonoBehaviour
                     rb.gravityScale = gravityScaleFalling * 1.66f;
         */
     }
+    //Player can get stuck in a falling state but still on the edge of a platform due to boxcast, so nudge him till he falls
+    private void EdgeNudge()
+    {
+        if (state == State.FALLING && rb.velocity.y == 0) {
+            rb.AddForce(new Vector2(transform.localScale.x, 0f), ForceMode2D.Impulse);
+            Debug.Log("NUDGE");
+            }
+            
+    }
     private void Jump()
     {
         //Reset some values before performing the actual jump
@@ -129,11 +136,12 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = gravityScaleNormal;
         //Actual jump
         rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        
     }
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(collider.bounds.center, collider.size, 0f, Vector2.down, 0.2f, groundLayer);
+        return Physics2D.BoxCast(collider.bounds.center, collider.size, 0f, Vector2.down, 0.1f, groundLayer);
     }
 
     private State DetectState()
