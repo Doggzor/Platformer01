@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef89ce4b0073964495c2292354a8d38, type: 3}
+  m_Name: Dino_TIGER
+  m_EditorClassIdentifier: 
+  head: {fileID: -5844941401975103245, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  eye_front: {fileID: 4473186823040843214, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  eye_back: {fileID: -711261992976046669, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  body: {fileID: 8359505620403827526, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  arm_front: {fileID: -2944312582456136691, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  arm_back: {fileID: -1717566701713985233, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  tail: {fileID: -4681153673347560430, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  leg_front: {fileID: -1852171083087943306, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}
+  leg_back: {fileID: -2632540468178088404, guid: d1b9f2d93fb930a47b361b8188130f7a, type: 3}

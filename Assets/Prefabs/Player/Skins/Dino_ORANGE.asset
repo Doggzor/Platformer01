@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef89ce4b0073964495c2292354a8d38, type: 3}
+  m_Name: Dino_ORANGE
+  m_EditorClassIdentifier: 
+  head: {fileID: 7149331775369934782, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  eye_front: {fileID: 1408593775934205580, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  eye_back: {fileID: 2732340604646175805, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  body: {fileID: 6203027066376378530, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  arm_front: {fileID: -3314327521828238062, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  arm_back: {fileID: 4260953084158956065, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  tail: {fileID: 2139071129772292966, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  leg_front: {fileID: 3896983638299397082, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}
+  leg_back: {fileID: 7906047229248716874, guid: cfae415a122ed9149b7c792cc8f27006, type: 3}

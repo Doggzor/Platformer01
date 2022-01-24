@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef89ce4b0073964495c2292354a8d38, type: 3}
+  m_Name: Dino_GREEN
+  m_EditorClassIdentifier: 
+  head: {fileID: 4553305681479832872, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  eye_front: {fileID: -4837356833021072331, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  eye_back: {fileID: 556411093501203838, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  body: {fileID: 6184941154598567053, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  arm_front: {fileID: 6365204623222633468, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  arm_back: {fileID: -2432552017885587052, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  tail: {fileID: 3664326031775392530, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  leg_front: {fileID: 2293960111817262736, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}
+  leg_back: {fileID: -7954772412716404884, guid: b5bdb5d65f7f73244b2e20bb92866162, type: 3}

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     private new BoxCollider2D collider;
@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float coyoteTime = 0.07f;
     [SerializeField] float gravityFallMultiplier = 1.5f;
 
+    [Space]
+    [SerializeField] PlayerSkinPrefab skin = null;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -43,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         groundLayer = LayerMask.GetMask("Ground");
         gravityScaleNormal = rb.gravityScale;
         gravityScaleFalling = rb.gravityScale * gravityFallMultiplier;
+        //ApplySkin();
     }
     private void Start()
     {
@@ -171,5 +175,29 @@ public class PlayerMovement : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void ApplySkin()
+    {
+        var sprite = transform.Find("Sprite");
+        var body = sprite.transform.Find("Body");
+        var head = body.transform.Find("Head");
+        var eye_front = head.transform.Find("Eye Front");
+        var eye_back = head.Find("Eye Back");
+        var arm_front = body.transform.Find("Arm Front");
+        var arm_back = body.transform.Find("Arm Back");
+        var tail = body.transform.Find("Tail");
+        var leg_front = sprite.transform.Find("Leg Front");
+        var leg_back = sprite.transform.Find("Leg Back");
+
+        head.GetComponent<SpriteRenderer>().sprite = skin.head;
+        eye_front.GetComponent<SpriteRenderer>().sprite = skin.eye_front;
+        eye_back.GetComponent<SpriteRenderer>().sprite = skin.eye_back;
+        body.GetComponent<SpriteRenderer>().sprite = skin.body;
+        arm_front.GetComponent<SpriteRenderer>().sprite = skin.arm_front;
+        arm_back.GetComponent<SpriteRenderer>().sprite = skin.arm_back;
+        tail.GetComponent<SpriteRenderer>().sprite = skin.tail;
+        leg_front.GetComponent<SpriteRenderer>().sprite = skin.leg_front;
+        leg_back.GetComponent<SpriteRenderer>().sprite = skin.leg_back;
     }
 }
