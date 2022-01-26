@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
     {
         
     }
-
     private void Update()
     {
         State debugState = state;
