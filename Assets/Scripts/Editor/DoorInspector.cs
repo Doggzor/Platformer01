@@ -10,9 +10,9 @@ public class DoorInspector : Editor
 
         base.OnInspectorGUI();
 
-        if (GUILayout.Button("Apply Color"))
+        if (GUILayout.Button("Apply Color To Key"))
         {
-            door.ApplyColor();
+            door.ApplyColorToKey();
         }
     }
 }

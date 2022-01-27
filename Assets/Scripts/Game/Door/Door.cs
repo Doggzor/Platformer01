@@ -8,40 +8,48 @@ namespace Dungeon
 {
     public class Door : MonoBehaviour
     {
-        [SerializeField] Color color;
-        public bool isFading = false;
-        private float fadeOutTimerStart = 0.7f;
-        private float fadeOutTimerCurrent;
+        private bool isFading = false;
         private Tilemap tiles;
+        private float fadeOutTimer = 0.7f;
+        private Color currentColor;
         private void Awake()
         {
-            tiles = transform.Find("Tiles").GetComponent<Tilemap>();
-            fadeOutTimerCurrent = fadeOutTimerStart;
+            tiles = GetComponent<Tilemap>();
+            if (tiles.color.a < 1)
+            {
+                Debug.LogWarning($"Color alpha component of {gameObject.name} not set to 100%, it might behave different than expected.");
+            }
+            currentColor = tiles.color;
         }
         private void Update()
         {
             if (isFading)
             {
-                FadeOut();
+                ColorFade();
             }
         }
         public void FadeOut()
         {
-            fadeOutTimerCurrent -= Time.deltaTime;
-            color.a = fadeOutTimerCurrent / fadeOutTimerStart;
-            tiles.color = color;
-            if (fadeOutTimerCurrent <= 0)
-            {
-                Destroy(gameObject);
-            }
+            StartCoroutine(Co_FadeOut());
+        }
+        private IEnumerator Co_FadeOut()
+        {
+            isFading = true;
+            yield return new WaitForSeconds(fadeOutTimer);
+            Destroy(gameObject);
         }
 
-        //For Inspector
-        public void ApplyColor()
+        private void ColorFade()
         {
-            transform.Find("Tiles").GetComponent<Tilemap>().color = color;
-            transform.Find("Key").GetComponent<SpriteRenderer>().color = color;
+            currentColor.a -= Time.deltaTime / fadeOutTimer;
+            tiles.color = currentColor;
         }
-       
+
+#if UNITY_EDITOR
+        public void ApplyColorToKey()
+        {
+            transform.Find("Key").GetComponent<SpriteRenderer>().color = GetComponent<Tilemap>().color;
+        }  
     }
+#endif
 }
