@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Tilemaps;
 
 [CustomEditor(typeof(Dungeon.Door))]
 public class DoorInspector : Editor
@@ -7,12 +8,7 @@ public class DoorInspector : Editor
     public override void OnInspectorGUI()
     {
         var door = (Dungeon.Door)target;
-
-        base.OnInspectorGUI();
-
-        if (GUILayout.Button("Apply Color To Key"))
-        {
-            door.ApplyColorToKey();
-        }
+        var key = door.transform.Find("Key");
+        key.GetComponent<SpriteRenderer>().color = door.GetComponent<Tilemap>().color;
     }
 }

@@ -1,17 +1,15 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Player))]
+[CustomEditor(typeof(Dungeon.Player))]
 public class PlayerInspector : Editor
 {
     public override void OnInspectorGUI()
     {
-        var player = (Player)target;
+        var player = (Dungeon.Player)target;
 
         base.OnInspectorGUI();
-        if (GUILayout.Button("Apply Skin"))
-        {
-            player.ApplySkin();
-        }
+        player.ApplySkin();
+
     }
 }

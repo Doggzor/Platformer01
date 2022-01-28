@@ -44,12 +44,5 @@ namespace Dungeon
             currentColor.a -= Time.deltaTime / fadeOutTimer;
             tiles.color = currentColor;
         }
-
-#if UNITY_EDITOR
-        public void ApplyColorToKey()
-        {
-            transform.Find("Key").GetComponent<SpriteRenderer>().color = GetComponent<Tilemap>().color;
-        }  
     }
-#endif
 }

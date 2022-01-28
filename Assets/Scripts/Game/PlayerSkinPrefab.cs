@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Skin", menuName = "Game/Skins/Player Skin")]
+[CreateAssetMenu(fileName = "PlayerSkin", menuName = "Game/Skins/Player Skin")]
 public class PlayerSkinPrefab : ScriptableObject
 {
     public Sprite
