@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class PickableObjectBase : MonoBehaviour, IPickable
+    public abstract class PickableObjectBase : MonoBehaviour, IPickable
     {
         public virtual void OnPickUp()
         {

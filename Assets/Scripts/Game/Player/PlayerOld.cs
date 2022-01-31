@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Dungeon
 {
-    public class Player : MonoBehaviour
+    public class PlayerOld : MonoBehaviour
     {
         private Rigidbody2D rb;
         private new BoxCollider2D collider;
@@ -16,7 +16,6 @@ namespace Dungeon
         private float timeLastGrounded = -1f;
         private float jumpPressTime = -1f;
         private float dirX = 0f;
-
         enum State
         {
             JUMPING,
@@ -37,6 +36,9 @@ namespace Dungeon
 
         [Space]
         [SerializeField] PlayerSkinPrefab skin = null;
+        [Space]
+        [SerializeReference] PlayerInput input = new PlayerInputController();
+    
 
         private void Awake()
         {
@@ -48,12 +50,17 @@ namespace Dungeon
             gravityScaleFalling = rb.gravityScale * gravityFallMultiplier;
             //ApplySkin();
         }
+        private bool left => Input.GetKeyDown(KeyCode.LeftArrow);
         private void Start()
         {
-
         }
         private void Update()
         {
+            input.Read();
+            if(Input.anyKeyDown)
+            {
+                Debug.Log(left);
+            }
             State debugState = state;
 
             if (state != State.DEAD)
@@ -69,8 +76,8 @@ namespace Dungeon
 
             if (state != debugState)
             {
-                Debug.Log(state.ToString());
-                if (state == State.FALLING) Debug.Log("Height reached: " + rb.position.y);
+                //Debug.Log(state.ToString());
+                //if (state == State.FALLING) Debug.Log("Height reached: " + rb.position.y);
             }
 
             HandleAnimations();
@@ -101,7 +108,6 @@ namespace Dungeon
         {
             if (collision.TryGetComponent<IDanger>(out _))
             {
-                Debug.Log("DEAD");
                 StartCoroutine(Co_TriggerDeath());
             }
             else if (collision.TryGetComponent(out IPickable obj))
@@ -159,7 +165,7 @@ namespace Dungeon
 
         private bool IsGrounded()
         {
-            return Physics2D.BoxCast(collider.bounds.center, collider.size, 0f, Vector2.down, 0.01f, groundLayer);
+            return Physics2D.BoxCast(collider.bounds.center, collider.size, 0f, Vector2.down, 0.05f, groundLayer);
         }
 
         private State DetectState()
