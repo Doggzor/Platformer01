@@ -14,7 +14,8 @@ namespace Dungeon
             acceleration = p.Stats.acceleration;
             speed = p.Stats.speed;
             jumpForce = p.Stats.jumpForce;
-            jumpToleranceTime = p.Stats.jumpToleranceTime;
+            maxFallSpeed = p.Stats.maxFallSpeed;
+            jumpBufferTime = p.Stats.jumpBufferTime;
             coyoteTime = p.Stats.coyoteTime;
             gravityScale = p.Stats.gravityScale;
             gravityFallMultiplier = p.Stats.gravityFallMultiplier;
@@ -23,7 +24,8 @@ namespace Dungeon
         public float acceleration = 2f;
         public float speed = 12f;
         public float jumpForce = 15f;
-        public float jumpToleranceTime = 0.15f;
+        public float maxFallSpeed = 15f;
+        public float jumpBufferTime = 0.15f;
         public float coyoteTime = 0.07f;
         public float gravityScale = 1f;
         public float gravityFallMultiplier = 1.5f;

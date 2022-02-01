@@ -28,21 +28,6 @@ namespace Dungeon
                 rb.gravityScale = player.Stats.gravityScale * player.Stats.gravityJumpCutMultiplier;
             }
             player.Actions.Move();
-            if (player.Utilities.IsGrounded)
-            {
-                if (Mathf.Abs(player.PlayerInput.directionX) > Mathf.Epsilon)
-                {
-                    player.StateMachine.SwitchToState(player.StateMachine.Running);
-                    return;
-                }
-                player.StateMachine.SwitchToState(player.StateMachine.Idle);
-                return;
-            }
-            if (rb.velocity.y < 0f)
-            {
-                player.StateMachine.SwitchToState(player.StateMachine.Falling);
-                return;
-            }
         }
     }
 }

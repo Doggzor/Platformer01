@@ -90,7 +90,7 @@ namespace Dungeon
                 Jumping();
             }
         }
-
+        
         private void Jumping()
         {
             if (Time.time - jumpPressTime <= jumpToleranceTime &&

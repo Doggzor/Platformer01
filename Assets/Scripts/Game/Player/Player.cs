@@ -9,17 +9,21 @@ namespace Dungeon
         public PlayerStateMachine StateMachine { get; private set; }
         private PlayerState State => StateMachine.currentState;
         public PlayerUtilities Utilities { get; private set; }
-
-        [Space]
-        [SerializeField] private PlayerSkinPrefab skin = null;
-        [Space]
-        [SerializeReference] private PlayerInput input = new PlayerInputController();
-        public PlayerInput PlayerInput { get => input; private set => input = value; }
-        [Space]
-        [SerializeField] private PlayerStats stats;
-        [SerializeField] public PlayerStats Stats { get => stats; private set => stats = value; }
-
         public PlayerActions Actions { get; private set; }
+
+        [Space]
+        [SerializeField]
+        private PlayerSkinPrefab skin = null;
+
+        [Space]
+        [SerializeReference]
+        private PlayerInput input = new PlayerInputController();
+        public PlayerInput PlayerInput { get => input; private set => input = value; }
+
+        [Space]
+        [SerializeField]
+        private PlayerStats stats;
+        public PlayerStats Stats { get => stats; private set => stats = value; }
 
         private void Awake()
         {
@@ -35,6 +39,7 @@ namespace Dungeon
         }
         private void Update()
         {
+            StateMachine.DetectState();
             input.Read();
             State.Animate();
         }

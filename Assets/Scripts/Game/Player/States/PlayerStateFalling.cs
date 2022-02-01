@@ -6,18 +6,21 @@ namespace Dungeon
 {
     public class PlayerStateFalling : PlayerState
     {
-        private float timeLastGrounded = -1f;
+        private float timeLastGrounded = Mathf.Infinity;
         public PlayerStateFalling(Player p) : base(p)
         {
         }
         public override void OnEnter()
         {
-            if (player.StateMachine.previousState == player.StateMachine.Running ||
-                player.StateMachine.previousState == player.StateMachine.Idle)
+            if (player.StateMachine.previousState != player.StateMachine.Jumping)
             {
                 timeLastGrounded = Time.time;
             }
             rb.gravityScale = player.Stats.gravityScale * player.Stats.gravityFallMultiplier;
+        }
+        public override void OnExit()
+        {
+            timeLastGrounded = Mathf.Infinity;
         }
         public override void Animate()
         {
@@ -27,24 +30,14 @@ namespace Dungeon
         public override void ProcessInput()
         {
             base.ProcessInput();
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -player.Stats.maxFallSpeed));
             if (timeLastGrounded + player.Stats.coyoteTime >= Time.time &&
                 player.PlayerInput.jumpPressTime > timeLastGrounded)
             {
                 player.Actions.Jump();
-                player.StateMachine.SwitchToState(player.StateMachine.Jumping);
-                return;
             }
             player.Actions.Move();
-            if (player.Utilities.IsGrounded)
-            {
-                if (Mathf.Abs(player.PlayerInput.directionX) > Mathf.Epsilon)
-                {
-                    player.StateMachine.SwitchToState(player.StateMachine.Running);
-                    return;
-                }
-                player.StateMachine.SwitchToState(player.StateMachine.Idle);
-                return;
-            }
         }
+
     }
 }

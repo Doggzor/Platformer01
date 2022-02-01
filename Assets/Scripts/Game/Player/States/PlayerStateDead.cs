@@ -20,5 +20,10 @@ namespace Dungeon
             base.OnEnter();
             player.StartCoroutine(player.Actions.Co_TriggerDeath());
         }
+
+        public override void HandleTriggerCollisions(Collider2D collision)
+        {
+            return;
+        }
     }
 }

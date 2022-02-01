@@ -16,7 +16,7 @@ namespace Dungeon
                 directionX = Convert.ToInt32(Input.GetKey(controls.rightKey)) - Convert.ToInt32(Input.GetKey(controls.leftKey));
                 if (Input.GetKeyDown(controls.jumpKey))
                     jumpPressTime = Time.time;
-                if (Input.GetKeyUp(controls.jumpKey))
+                if (!Input.GetKey(controls.jumpKey))
                     jumpReleaseTime = Time.time;
             }
             else

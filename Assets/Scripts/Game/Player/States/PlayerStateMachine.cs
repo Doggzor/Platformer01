@@ -6,6 +6,8 @@ namespace Dungeon
 {
     public class PlayerStateMachine
     {
+        private Player player;
+        private Rigidbody2D rb;
         public PlayerState currentState {get;private set;}
         public PlayerState previousState { get; private set; }
         public PlayerState Idle { get; private set; }
@@ -16,6 +18,9 @@ namespace Dungeon
 
         public PlayerStateMachine(Player p)
         {
+            player = p;
+            rb = p.GetComponent<Rigidbody2D>();
+
             Idle = new PlayerStateIdle(p);
             Running = new PlayerStateRunning(p);
             Jumping = new PlayerStateJumping(p);
@@ -24,7 +29,24 @@ namespace Dungeon
 
             currentState = Idle;
         }
-
+        public void DetectState()
+        {
+            if (currentState == Dead)
+                return;
+            PlayerState s = currentState;
+            if (player.Utilities.IsGrounded)
+            {
+                s = Mathf.Abs(player.PlayerInput.directionX) > Mathf.Epsilon ? Running : Idle;
+            }
+            else
+            {
+                if (rb.velocity.y > 0.1f)
+                    s = Jumping;
+                else if (rb.velocity.y < 0.1f)
+                    s = Falling;
+            }
+            SwitchToState(s);
+        }
         public void SwitchToState(PlayerState state)
         {
             if (currentState == state)
