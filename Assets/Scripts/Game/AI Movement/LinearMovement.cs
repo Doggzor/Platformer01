@@ -15,7 +15,7 @@ namespace Dungeon
         [Range(-1, 1)]
         private int verticalAxis;
         [SerializeField]
-        private bool relativeToWorldSpace = true;
+        private bool relativeToSelf;
 
         private Vector3 direction;
         private Space space;
@@ -23,7 +23,7 @@ namespace Dungeon
         private void Awake()
         {
             direction = new Vector3(horizontalAxis, verticalAxis, 0);
-            space = relativeToWorldSpace ? Space.World : Space.Self;
+            space = relativeToSelf ? Space.Self : Space.World;
         }
 
         public override void Move()

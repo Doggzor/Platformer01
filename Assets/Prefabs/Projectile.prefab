@@ -112,7 +112,7 @@ MonoBehaviour:
   speed: 2.5
   horizontalAxis: 0
   verticalAxis: 1
-  relativeToWorldSpace: 0
+  relativeToSelf: 1
 --- !u!70 &-3262621612937467820
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
