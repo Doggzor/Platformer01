@@ -1,15 +1,21 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Dungeon.Player))]
-public class PlayerInspector : Editor
+namespace Dungeon
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(Player))]
+    public class PlayerInspector : Editor
     {
-        var player = (Dungeon.Player)target;
+        private Player player;
 
-        base.OnInspectorGUI();
-        player.ApplySkin();
-
+        private void OnEnable()
+        {
+            player = (Player)target;
+        }
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            player.ApplySkin();
+        }
     }
 }

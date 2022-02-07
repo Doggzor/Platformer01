@@ -2,13 +2,21 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.Tilemaps;
 
-[CustomEditor(typeof(Dungeon.Door))]
-public class DoorInspector : Editor
+namespace Dungeon
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(Door))]
+    public class DoorInspector : Editor
     {
-        var door = (Dungeon.Door)target;
-        var key = door.transform.Find("Key");
-        key.GetComponent<SpriteRenderer>().color = door.GetComponent<Tilemap>().color;
+        private Door door;
+        private Key key;
+        private void OnEnable()
+        {
+            door = (Door)target;
+            key = door.transform.Find("Key").GetComponent<Key>();
+        }
+        public override void OnInspectorGUI()
+        {
+            key.GetComponent<SpriteRenderer>().color = door.GetComponent<Tilemap>().color;
+        }
     }
 }

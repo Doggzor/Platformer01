@@ -4,31 +4,22 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class LinearMovement : MovingBehaviour
+    public class LinearMovement : Movement
     {
-        [SerializeField]
-        private float speed;
-        [SerializeField]
-        [Range(-1, 1)]
-        private int horizontalAxis;
-        [SerializeField]
-        [Range(-1, 1)]
-        private int verticalAxis;
-        [SerializeField]
-        private bool relativeToSelf;
-
-        private Vector3 direction;
-        private Space space;
-
-        private void Awake()
+        public enum RelativeSpace
         {
-            direction = new Vector3(horizontalAxis, verticalAxis, 0);
-            space = relativeToSelf ? Space.Self : Space.World;
+            World,
+            Self
         }
+        [HideInInspector]
+        public RelativeSpace relativeTo;
+        [HideInInspector]
+        public Vector2 direction;
+        private Space space => relativeTo switch { RelativeSpace.World => Space.World, _ => Space.Self };
 
-        public override void Move()
+        public override void UpdatePosition()
         {
-            transform.Translate(direction * speed * Time.deltaTime, space);
+            transform.Translate(translation: speed * Time.deltaTime * direction, relativeTo: space);
         }
     }
 }

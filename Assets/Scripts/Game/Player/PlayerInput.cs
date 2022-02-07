@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public abstract class PlayerInput
+    public abstract class PlayerInput : MonoBehaviour
     {
         public float directionX { get; protected set; } = 0f;
         public float jumpPressTime { get; set; } = -1f;

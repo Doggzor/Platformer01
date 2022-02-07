@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Dungeon
 {
+    [RequireComponent(typeof(PlayerStats))]
     public class Player : MonoBehaviour
     {
         public PlayerStateMachine StateMachine { get; private set; }
@@ -15,20 +16,18 @@ namespace Dungeon
         [SerializeField]
         private PlayerSkinPrefab skin = null;
 
-        [Space]
-        [SerializeReference]
-        private PlayerInput input = new PlayerInputController();
-        public PlayerInput PlayerInput { get => input; private set => input = value; }
-
-        [Space]
         [SerializeField]
-        private PlayerStats stats;
-        public PlayerStats Stats { get => stats; private set => stats = value; }
+        private LayerMask groundLayer;
+        public LayerMask GroundLayer { get => groundLayer; }
+
+        public PlayerInput PlayerInput { get; private set; }
+        public PlayerStats Stats { get; private set; }
 
         private void Awake()
         {
             StateMachine = new PlayerStateMachine(this);
-            stats = new PlayerStats(this);
+            PlayerInput = GetComponent<PlayerInput>();
+            Stats = GetComponent<PlayerStats>();
             Utilities = new PlayerUtilities(this);
             Actions = new PlayerActions(this);
 
@@ -40,7 +39,7 @@ namespace Dungeon
         private void Update()
         {
             StateMachine.DetectState();
-            input.Read();
+            PlayerInput.Read();
             State.Animate();
         }
         private void FixedUpdate()

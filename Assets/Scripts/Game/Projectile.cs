@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dungeon {
-    public class Projectile : MonoBehaviour, IDanger
+namespace Dungeon
+{
+    public class Projectile : MonoBehaviour, IDanger, IMoving
     {
-        private void OnCollisionEnter2D(Collision2D collision)
+        private Movement movement;
+        private void Awake()
         {
-            Destroy(gameObject);
+            movement = GetComponent<Movement>();
         }
     }
 }
