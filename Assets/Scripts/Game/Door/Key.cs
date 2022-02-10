@@ -10,8 +10,8 @@ namespace Dungeon
         
         public override void OnPickUp()
         {
-            base.OnPickUp();
             door.FadeOut();
+            base.OnPickUp();
         }
     }
 }

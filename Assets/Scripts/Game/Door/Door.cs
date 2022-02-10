@@ -12,13 +12,11 @@ namespace Dungeon
         private Tilemap tiles;
         private float fadeOutTimer = 0.7f;
         private Color currentColor;
+        private float alphaPercentage;
         private void Awake()
         {
             tiles = GetComponent<Tilemap>();
-            if (tiles.color.a < 1)
-            {
-                Debug.LogWarning($"Color alpha component of {gameObject.name} not set to 100%, it might behave different than expected.");
-            }
+            alphaPercentage = tiles.color.a;
             currentColor = tiles.color;
         }
         private void Update()
@@ -30,18 +28,13 @@ namespace Dungeon
         }
         public void FadeOut()
         {
-            StartCoroutine(Co_FadeOut());
-        }
-        private IEnumerator Co_FadeOut()
-        {
             isFading = true;
-            yield return new WaitForSeconds(fadeOutTimer);
-            Destroy(gameObject);
+            Destroy(gameObject, fadeOutTimer);
         }
 
         private void ColorFade()
         {
-            currentColor.a -= Time.deltaTime / fadeOutTimer;
+            currentColor.a -= Time.deltaTime / fadeOutTimer * alphaPercentage;
             tiles.color = currentColor;
         }
     }

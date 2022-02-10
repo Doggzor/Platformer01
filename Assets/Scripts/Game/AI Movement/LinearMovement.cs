@@ -12,9 +12,9 @@ namespace Dungeon
             Self
         }
         [HideInInspector]
-        public RelativeSpace relativeTo;
+        public RelativeSpace relativeTo = RelativeSpace.World;
         [HideInInspector]
-        public Vector2 direction;
+        public Vector2 direction = Vector2.zero;
         private Space space => relativeTo switch { RelativeSpace.World => Space.World, _ => Space.Self };
 
         public override void UpdatePosition()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class Projectile : MonoBehaviour, IDanger, IMoving
+    public class Projectile : MonoBehaviour, IDanger
     {
         private Movement movement;
         private void Awake()

@@ -15,6 +15,7 @@ namespace Dungeon
         public PlayerState Jumping { get; private set; }
         public PlayerState Falling { get; private set; }
         public PlayerState Dead { get; private set; }
+        public PlayerState DebugState { get; private set; }
 
         public PlayerStateMachine(Player p)
         {
@@ -26,6 +27,7 @@ namespace Dungeon
             Jumping = new PlayerStateJumping(p);
             Falling = new PlayerStateFalling(p);
             Dead = new PlayerStateDead(p);
+            DebugState = new PlayerStateDebug(p);
 
             currentState = Idle;
         }
@@ -34,6 +36,14 @@ namespace Dungeon
             if (currentState == Dead)
                 return;
             PlayerState s = currentState;
+
+            //Debug
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                SwitchToState(DebugState);
+                return;
+            }
+
             if (player.Utilities.IsGrounded)
             {
                 s = Mathf.Abs(player.PlayerInput.directionX) > Mathf.Epsilon ? Running : Idle;
@@ -54,6 +64,7 @@ namespace Dungeon
             currentState.OnExit();
             previousState = currentState;
             currentState = state;
+            Debug.Log(currentState);
             currentState.OnEnter();
         }
     }

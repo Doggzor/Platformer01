@@ -6,11 +6,10 @@ namespace Dungeon
 {
     public abstract class Movement : MonoBehaviour
     {
-        [SerializeReference]
         [Tooltip("Delay in seconds before the object starts moving")]
-        private float delay = 0f;
+        public float delay = 0f;
         [SerializeReference]
-        protected float speed = 1;
+        public float speed = 1;
 
         protected bool startMovement = false;
         private void Start()
