@@ -6,14 +6,16 @@ namespace Dungeon
 {
     public class PlayerStateDead : PlayerState
     {
-        public PlayerStateDead(Player p) : base(p) { }
+        public PlayerStateDead(PlayerStateMachine stateMachine, Player p) : base(stateMachine, p) { }
         public override void Animate()
         {
             //animator.Play("Death");
         }
         public override void ProcessInput()
         {
-            return;
+        }
+        public override void UpdatePhysics()
+        {
         }
         public override void OnEnter()
         {
@@ -23,7 +25,7 @@ namespace Dungeon
 
         public override void HandleTriggerCollisions(Collider2D collision)
         {
-            return;
         }
+
     }
 }

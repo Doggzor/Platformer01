@@ -8,7 +8,7 @@ namespace Dungeon
     public class Player : MonoBehaviour
     {
         public PlayerStateMachine StateMachine { get; private set; }
-        private PlayerState State => StateMachine.currentState;
+        private PlayerState State => StateMachine.CurrentState;
         public PlayerUtilities Utilities { get; private set; }
         public PlayerActions Actions { get; private set; }
 
@@ -38,13 +38,13 @@ namespace Dungeon
         }
         private void Update()
         {
-            StateMachine.DetectState();
             PlayerInput.Read();
+            State.ProcessInput();
             State.Animate();
         }
         private void FixedUpdate()
         {
-            State.ProcessInput();
+            State.UpdatePhysics();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

@@ -4,12 +4,10 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class PlayerStateJumping : PlayerState
+    public class PlayerStateJumping : PlayerStateAir
     {
         private float timeSinceJump = -1f;
-        public PlayerStateJumping(Player p) : base(p)
-        {
-        }
+        public PlayerStateJumping(PlayerStateMachine stateMachine, Player p) : base(stateMachine, p) {}
 
         public override void Animate()
         {
@@ -19,15 +17,19 @@ namespace Dungeon
         {
             base.OnEnter();
             timeSinceJump = Time.time;
+            player.Actions.Jump();
         }
         public override void ProcessInput()
         {
             base.ProcessInput();
             if (player.PlayerInput.jumpReleaseTime > timeSinceJump)
             {
-                rb.gravityScale = player.Stats.gravityScale * player.Stats.gravityJumpCutMultiplier;
+                player.Actions.SetGravity(player.Stats.gravityScale * player.Stats.gravityJumpCutMultiplier);
             }
-            player.Actions.Move();
+            if (rb.velocity.y < 0f)
+            {
+                stateMachine.SwitchToState(stateMachine.Falling);
+            }
         }
     }
 }

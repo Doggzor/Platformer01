@@ -7,15 +7,18 @@ namespace Dungeon
 {
     public class PlayerActions
     {
-        private Player player;
-        private Rigidbody2D rb;
-        private BoxCollider2D collider;
+        private readonly Player player;
+        private readonly Rigidbody2D rb;
+        private readonly BoxCollider2D collider;
+        private readonly Vector2 flipVector = new Vector2(-1.0f, 1.0f);
         public PlayerActions(Player p)
         {
             player = p;
             rb = p.GetComponent<Rigidbody2D>();
             collider = p.GetComponent<BoxCollider2D>();
         }
+        public void Flip() => player.transform.localScale *= flipVector;
+        public void SetGravity(float value) => rb.gravityScale = value;
         public void Move()
         {
             rb.AddForce(new Vector2(player.PlayerInput.directionX * player.Stats.acceleration, 0), ForceMode2D.Impulse);
@@ -25,14 +28,10 @@ namespace Dungeon
         {
             //Reset some values before performing the actual jump
             player.PlayerInput.jumpPressTime = -1f; ; //Important for consistent jump heights
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity *= Vector3.right;
             rb.gravityScale = player.Stats.gravityScale;
             //Actual jump
             rb.AddForce(new Vector2(0, player.Stats.jumpForce), ForceMode2D.Impulse);
-        }
-        public void Flip()
-        {
-            player.transform.localScale *= new Vector2(-1, 1);
         }
         public IEnumerator Co_TriggerDeath()
         {

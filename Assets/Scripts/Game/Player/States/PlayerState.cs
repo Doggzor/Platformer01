@@ -9,11 +9,13 @@ namespace Dungeon
         protected Player player;
         protected Rigidbody2D rb;
         protected Animator animator;
-        public PlayerState(Player p)
+        protected PlayerStateMachine stateMachine;
+        public PlayerState(PlayerStateMachine stateMachine, Player p)
         {
             player = p;
             rb = p.GetComponent<Rigidbody2D>();
             animator = p.GetComponent<Animator>();
+            this.stateMachine = stateMachine;
         }
         public virtual void ProcessInput()
         {
@@ -21,26 +23,39 @@ namespace Dungeon
             {
                 player.Actions.Flip();
             }
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                stateMachine.SwitchToState(stateMachine.DebugState);
+                return;
+            }
         }
-        public abstract void Animate();
+        public virtual void UpdatePhysics()
+        {
+        }
+        public virtual void Animate()
+        {
+        }
         public virtual void HandleTriggerCollisions(Collider2D collision)
         {
             if (collision.TryGetComponent<IDanger>(out _))
             {
                 player.StateMachine.SwitchToState(player.StateMachine.Dead);
             }
-            else if (collision.TryGetComponent(out IPickable obj))
+            else if (collision.TryGetComponent(out IPickable pickableObject))
             {
-                obj.OnPickUp();
+                pickableObject.OnPickUp();
+            }
+            else if (collision.TryGetComponent(out IInteractable interactableObject))
+            {
+                interactableObject.OnInteraction(player.gameObject);
             }
         }
         public virtual void OnEnter()
         {
-            rb.gravityScale = player.Stats.gravityScale;
+            player.Actions.SetGravity(player.Stats.gravityScale);
         }
         public virtual void OnExit()
         {
-            return;
         }
     }
 }

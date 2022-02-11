@@ -4,40 +4,34 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class PlayerStateFalling : PlayerState
+    public class PlayerStateFalling : PlayerStateAir
     {
-        private float timeLastGrounded = Mathf.Infinity;
-        public PlayerStateFalling(Player p) : base(p)
-        {
-        }
+        public PlayerStateFalling(PlayerStateMachine stateMachine, Player p) : base(stateMachine, p) {}
         public override void OnEnter()
         {
-            if (player.StateMachine.previousState != player.StateMachine.Jumping)
-            {
-                timeLastGrounded = Time.time;
-            }
-            rb.gravityScale = player.Stats.gravityScale * player.Stats.gravityFallMultiplier;
+            player.Actions.SetGravity(player.Stats.gravityScale * player.Stats.gravityFallMultiplier);
         }
         public override void OnExit()
         {
-            timeLastGrounded = Mathf.Infinity;
+            base.OnExit();
         }
         public override void Animate()
         {
             animator.Play("Falling");
         }
-
         public override void ProcessInput()
         {
             base.ProcessInput();
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -player.Stats.maxFallSpeed));
-            if (timeLastGrounded + player.Stats.coyoteTime >= Time.time &&
-                player.PlayerInput.jumpPressTime > timeLastGrounded)
+            if (player.Utilities.TimeLastGrounded + player.Stats.coyoteTime >= Time.time &&
+                player.PlayerInput.jumpPressTime > player.Utilities.TimeLastGrounded)
             {
-                player.Actions.Jump();
+                stateMachine.SwitchToState(stateMachine.Jumping);
             }
-            player.Actions.Move();
         }
-
+        public override void UpdatePhysics()
+        {
+            base.UpdatePhysics();
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -player.Stats.maxFallSpeed));
+        }
     }
 }
