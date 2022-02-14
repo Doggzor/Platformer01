@@ -6,14 +6,13 @@ namespace Dungeon
 {
     public abstract class Movement : MonoBehaviour
     {
-        [Tooltip("Delay in seconds before the object starts moving")]
-        public float delay = 0f;
-        [SerializeReference]
-        public float speed = 1;
+        public float Delay = 0f;
+        public float Speed = 1;
 
         protected bool startMovement = false;
         private void Start()
         {
+            Initialize();
             StartCoroutine(Co_WaitForDelay());
         }
         private void Update()
@@ -23,9 +22,10 @@ namespace Dungeon
         }
         public virtual IEnumerator Co_WaitForDelay()
         {
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(Delay);
             startMovement = true;
         }
+        public abstract void Initialize();
         public abstract void UpdatePosition();
     }
 }

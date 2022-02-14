@@ -21,17 +21,17 @@ namespace Dungeon
         public void SetGravity(float value) => rb.gravityScale = value;
         public void Move()
         {
-            rb.AddForce(new Vector2(player.PlayerInput.directionX * player.Stats.acceleration, 0), ForceMode2D.Impulse);
+            rb.AddForce(player.PlayerInput.directionX * player.Stats.acceleration * Vector2.right, ForceMode2D.Impulse);
             rb.velocity = new Vector2(Mathf.Min(Mathf.Abs(rb.velocity.x), player.Stats.speed) * player.PlayerInput.directionX, rb.velocity.y);
         }
         public void Jump()
         {
             //Reset some values before performing the actual jump
             player.PlayerInput.jumpPressTime = -1f; ; //Important for consistent jump heights
-            rb.velocity *= Vector3.right;
+            rb.velocity *= Vector3.right; //Reset Velocity.y to 0
             rb.gravityScale = player.Stats.gravityScale;
             //Actual jump
-            rb.AddForce(new Vector2(0, player.Stats.jumpForce), ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * player.Stats.jumpForce, ForceMode2D.Impulse);
         }
         public IEnumerator Co_TriggerDeath()
         {

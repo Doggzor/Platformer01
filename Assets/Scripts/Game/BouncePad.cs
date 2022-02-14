@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class BouncingPad : MonoBehaviour, IInteractable
+    public class BouncePad : MonoBehaviour, IInteractable
     {
         [SerializeField]
         private float _bounceForce;

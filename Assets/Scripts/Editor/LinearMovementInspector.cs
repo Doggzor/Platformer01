@@ -17,7 +17,7 @@ namespace Dungeon
         {
             t = (LinearMovement)target;
             selectedDir = DirectionToIndex();
-            currentRelativeButtonText = t.relativeTo.ToString();
+            currentRelativeButtonText = t.RelativeSpace.ToString();
         }
         public override void OnInspectorGUI()
         {
@@ -26,16 +26,16 @@ namespace Dungeon
             //Left column
             GUILayout.BeginVertical();
             GUILayout.Space(EditorGUIUtility.singleLineHeight * 1.5f);
-            t.delay = EditorGUILayout.FloatField(new GUIContent("Delay (Seconds)", "Delay in seconds before the object starts moving"), t.delay);
-            GUILayout.Space(EditorGUIUtility.singleLineHeight);
-            t.speed = EditorGUILayout.FloatField("Speed", t.speed);
-            GUILayout.Space(EditorGUIUtility.singleLineHeight);
+            t.Delay = EditorGUILayout.FloatField(new GUIContent("Delay (Seconds)", "Delay in seconds before the object starts moving"), Mathf.Max(0f, t.Delay));
+            EditorGUILayout.Separator();
+            t.Speed = EditorGUILayout.FloatField("Speed", Mathf.Max(0f, t.Speed));
+            EditorGUILayout.Separator();
             GUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("Relative to");
             if (GUILayout.Button(currentRelativeButtonText))
             {
-                t.relativeTo = (LinearMovement.RelativeSpace)(((int)t.relativeTo + 1) % 2);
-                currentRelativeButtonText = t.relativeTo.ToString();
+                t.RelativeSpace = (Space)(((int)t.RelativeSpace + 1) % 2);
+                currentRelativeButtonText = t.RelativeSpace.ToString();
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -45,20 +45,59 @@ namespace Dungeon
             GUILayout.BeginVertical();
             EditorGUILayout.PrefixLabel("Direction");
             selectedDir = GUILayout.SelectionGrid(selectedDir, buttonStrings, 3, GUILayout.Height(120), GUILayout.MaxWidth(120));
+            SetDirection();
             GUILayout.EndVertical();
             
             GUILayout.EndHorizontal();
 
-            SetDirection();
+            //Next Section
+            EditorGUILayout.Separator();
+            t.MovementMode = (LinearMovement.Mode)EditorGUILayout.EnumPopup("Mode", t.MovementMode);
+            switch (t.MovementMode)
+            {
+                case LinearMovement.Mode.Continuous:
+                    break;
+                case LinearMovement.Mode.Once:
+                    t.Distance = EditorGUILayout.FloatField("Distance", Mathf.Max(0.1f, t.Distance));
+                    break;
+                case LinearMovement.Mode.Patrol:
+                    t.Distance = EditorGUILayout.FloatField("Distance", Mathf.Max(0.1f, t.Distance));
+                    //Cycles
+                    GUILayout.BeginHorizontal();
+                    t.IsInfinite = EditorGUILayout.Toggle(new GUIContent("Infinite", "Should the movement pattern repeat indefinitely"), t.IsInfinite);
+                    EditorGUI.BeginDisabledGroup(t.IsInfinite);
+                    t.Cycles = EditorGUILayout.IntField(new GUIContent("Cycles", "How many times will the movement pattern repeat"), Mathf.Max(0, t.Cycles));
+                    EditorGUI.EndDisabledGroup();
+                    GUILayout.EndHorizontal();
+                    //Delay Between Cycles
+                    GUILayout.BeginHorizontal();
+                    EditorGUI.BeginChangeCheck();
+                    t.HasDelayBetweenCycles = EditorGUILayout.Toggle(new GUIContent("Delay (Cycles)", "How long to wait before moving after each full cycle"), t.HasDelayBetweenCycles);
+                    if (EditorGUI.EndChangeCheck() && t.HasDelayBetweenCycles && t.HasDelayBetweenPositions) t.HasDelayBetweenPositions = false;
+                    EditorGUI.BeginDisabledGroup(!t.HasDelayBetweenCycles);
+                    t.DelayBetweenCycles = EditorGUILayout.FloatField("Seconds", Mathf.Max(0f, t.DelayBetweenCycles));
+                    EditorGUI.EndDisabledGroup();
+                    GUILayout.EndHorizontal();
+                    //Delay Between Steps
+                    GUILayout.BeginHorizontal();
+                    EditorGUI.BeginChangeCheck();
+                    t.HasDelayBetweenPositions = EditorGUILayout.Toggle(new GUIContent("Delay (Steps)", "How long to wait before moving after each step"), t.HasDelayBetweenPositions);
+                    if (EditorGUI.EndChangeCheck() && t.HasDelayBetweenCycles && t.HasDelayBetweenPositions) t.HasDelayBetweenCycles = false;
+                    EditorGUI.BeginDisabledGroup(!t.HasDelayBetweenPositions);
+                    t.DelayBetweenPositions = EditorGUILayout.FloatField("Seconds", Mathf.Max(0f, t.DelayBetweenPositions));
+                    EditorGUI.EndDisabledGroup();
+                    GUILayout.EndHorizontal();
+                    break;
+            }
         }
 
         private void SetDirection()
         {
-            t.direction = new Vector2( (selectedDir % 3) - 1, -((selectedDir / 3) - 1) );
+            t.Direction = new Vector2( (selectedDir % 3) - 1, -((selectedDir / 3) - 1) );
         }
         private int DirectionToIndex()
         {
-            return ((int)-t.direction.y + 1) * 3 + ((int)t.direction.x + 1);
+            return ((int)-t.Direction.y + 1) * 3 + ((int)t.Direction.x + 1);
         }
     }
 }
