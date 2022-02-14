@@ -8,9 +8,9 @@ namespace Dungeon
         public override void ProcessInput()
         {
             base.ProcessInput();
-            if (player.Utilities.IsGrounded && rb.velocity.y < 0.1f)
+            if (player.Utilities.IsGrounded && rb.velocity.y < 0.01f)
             {
-                stateMachine.SwitchToState(Mathf.Abs(player.PlayerInput.directionX) > 0.1f ? stateMachine.Running : stateMachine.Idle);
+                stateMachine.SwitchToState(player.PlayerInput.directionX == 0 ? stateMachine.Idle : stateMachine.Running);
             }
         }
 

@@ -46,7 +46,6 @@ namespace Dungeon
         {
             State.UpdatePhysics();
         }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             State.HandleTriggerCollisions(collision);

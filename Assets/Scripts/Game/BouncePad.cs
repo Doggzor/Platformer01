@@ -7,13 +7,14 @@ namespace Dungeon
     public class BouncePad : MonoBehaviour, IInteractable
     {
         [SerializeField]
-        private float _bounceForce;
-
-        public void OnInteraction(GameObject caller)
+        private float bounceForce;
+        public void OnInteraction(Player caller)
         {
-            Rigidbody2D rbCaller = caller.GetComponent<Rigidbody2D>();
-            rbCaller.velocity = new Vector2(rbCaller.velocity.x, 0f);
-            rbCaller.AddForce(new Vector2(0f, _bounceForce), ForceMode2D.Impulse);
+            float callerBottomPoint = caller.transform.position.y - caller.GetComponent<Collider2D>().bounds.extents.y;
+            if (callerBottomPoint > transform.position.y)
+            {
+                caller.StateMachine.SwitchToState(new PlayerStateBouncing(caller.StateMachine, caller, bounceForce));
+            }
         }
     }
 }

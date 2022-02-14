@@ -14,11 +14,13 @@ namespace Dungeon
         }
         public override void ProcessInput()
         {
-            base.ProcessInput();
             if (player.PlayerInput.directionX != 0)
             {
                 stateMachine.SwitchToState(stateMachine.Running);
             }
+            //Important to first check for running and then for Jumping/Falling to prevent
+            //some unwanted behaviour with simultanious pressing of the jump and move key
+            base.ProcessInput();
         }
 
         public override void Animate()

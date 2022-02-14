@@ -47,7 +47,7 @@ namespace Dungeon
             }
             else if (collision.TryGetComponent(out IInteractable interactableObject))
             {
-                interactableObject.OnInteraction(player.gameObject);
+                interactableObject.OnInteraction(player);
             }
         }
         public virtual void OnEnter()

@@ -123,8 +123,8 @@ namespace Dungeon
                 Gizmos.DrawLine(transform.position, (Vector2)transform.position + direction.normalized);
             }
             else
-            {                
-                Vector2 endPos = (Vector2)transform.position + direction.normalized * Distance;
+            {
+                Vector2 endPos = !Application.isPlaying ? (Vector2)transform.position + direction.normalized * Distance : EndPos;
                 Gizmos.DrawLine(transform.position, endPos);
                 Helpers.DrawGizmosWireCube(endPos, transform.rotation, transform.localScale);
             }

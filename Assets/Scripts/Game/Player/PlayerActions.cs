@@ -29,9 +29,16 @@ namespace Dungeon
             //Reset some values before performing the actual jump
             player.PlayerInput.jumpPressTime = -1f; ; //Important for consistent jump heights
             rb.velocity *= Vector3.right; //Reset Velocity.y to 0
-            rb.gravityScale = player.Stats.gravityScale;
             //Actual jump
             rb.AddForce(Vector2.up * player.Stats.jumpForce, ForceMode2D.Impulse);
+        }
+        public void Bounce(float bounceForce)
+        {
+            //Reset some values before performing the actual bounce
+            player.PlayerInput.jumpPressTime = -1f; ; //Important for consistent bounce heights
+            rb.velocity *= Vector3.right; //Reset Velocity to 0
+            //Actual bounce
+            rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
         }
         public IEnumerator Co_TriggerDeath()
         {
