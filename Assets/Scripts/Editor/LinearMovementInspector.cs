@@ -17,7 +17,6 @@ namespace Dungeon
         {
             t = (LinearMovement)target;
             selectedDir = DirectionToIndex();
-            currentRelativeButtonText = t.RelativeSpace.ToString();
         }
         public override void OnInspectorGUI()
         {
@@ -32,10 +31,11 @@ namespace Dungeon
             EditorGUILayout.Separator();
             GUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("Relative to");
-            if (GUILayout.Button(currentRelativeButtonText))
+            if (GUILayout.Button(t.RelativeSpace.ToString()))
             {
+                Undo.RecordObject(t, "Change Relative Space");
                 t.RelativeSpace = (Space)(((int)t.RelativeSpace + 1) % 2);
-                currentRelativeButtonText = t.RelativeSpace.ToString();
+                PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -44,8 +44,15 @@ namespace Dungeon
             //Right column
             GUILayout.BeginVertical();
             EditorGUILayout.PrefixLabel("Direction");
+            EditorGUI.BeginChangeCheck();
             selectedDir = GUILayout.SelectionGrid(selectedDir, buttonStrings, 3, GUILayout.Height(120), GUILayout.MaxWidth(120));
-            SetDirection();
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.undoRedoPerformed += () => selectedDir = DirectionToIndex();
+                Undo.RecordObject(t, "Change Direction");
+                SetDirection();
+                PrefabUtility.RecordPrefabInstancePropertyModifications(t);
+            }
             GUILayout.EndVertical();
             
             GUILayout.EndHorizontal();
@@ -94,6 +101,7 @@ namespace Dungeon
         private void SetDirection()
         {
             t.Direction = new Vector2( (selectedDir % 3) - 1, -((selectedDir / 3) - 1) );
+            selectedDir = DirectionToIndex();
         }
         private int DirectionToIndex()
         {

@@ -33,9 +33,11 @@ namespace Dungeon
             currentDelayBetweenPositions = DelayBetweenPositions;
             currentDelayBetweenCycles = DelayBetweenCycles;
             StartPos = transform.position;
-            Direction = RelativeSpace == Space.World ? Direction : Direction.RotatedByAngleZ(transform.rotation.eulerAngles.z);
-            EndPos = StartPos + Direction.normalized * Distance;
+            Vector2 newDirection = RelativeSpace == Space.World ? Direction : Direction.RotatedByAngleZ(transform.rotation.eulerAngles.z);
+            Direction.Normalize();
+            EndPos = StartPos + newDirection.normalized * Distance;
             NextPos = EndPos;
+            Debug.Log(Direction);
         }
 
         public override void UpdatePosition()

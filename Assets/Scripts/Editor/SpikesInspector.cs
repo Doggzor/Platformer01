@@ -14,18 +14,20 @@ namespace Dungeon
         public override void OnInspectorGUI()
         {
             GUILayout.BeginHorizontal();
+            Undo.RecordObject(spikes.transform, "Rotate Spikes");
             if (GUILayout.Button("Rotate Left"))
             {
                 spikes.transform.Rotate(new Vector3(0, 0, 90f));
             }
-            if (GUILayout.Button("Flip"))
+            else if (GUILayout.Button("Flip"))
             {
                 spikes.transform.Rotate(new Vector3(0, 0, 180f));
             }
-            if (GUILayout.Button("Rotate Right"))
+            else if (GUILayout.Button("Rotate Right"))
             {
                 spikes.transform.Rotate(new Vector3(0, 0, -90f));
             }
+            PrefabUtility.RecordPrefabInstancePropertyModifications(spikes.transform);
             GUILayout.EndHorizontal();
         }
     }

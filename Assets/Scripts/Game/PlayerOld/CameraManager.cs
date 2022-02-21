@@ -25,7 +25,7 @@ public class CameraManager : MonoBehaviour
     {
         FollowPlayer();
     }
-    
+
     void FollowPlayer()
     {
         offset.x = (player.localScale.x + rbPlayer.velocity.x * 0.5f) * 1.5f;
