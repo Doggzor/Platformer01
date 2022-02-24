@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 
 namespace Dungeon
 {
     [CustomEditor(typeof(Projectile))]
-    public class ProjectileInspector : Editor
+    public class ProjectileEditor : Editor
     {
         Projectile p;
         private void OnEnable()

@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Dungeon
 {
     [CustomEditor(typeof(Player))]
-    public class PlayerInspector : Editor
+    public class PlayerEditor : Editor
     {
         private Player player;
 

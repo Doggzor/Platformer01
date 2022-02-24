@@ -6,10 +6,12 @@ namespace Dungeon
 {
     public class Projectile : MonoBehaviour, IDanger
     {
-        private Movement movement;
-        private void Awake()
+        [Tooltip("Time in seconds before the projectile is destroyed")]
+        [Min(0f)]
+        [SerializeField] private float lifetime;
+        private void Start()
         {
-            movement = GetComponent<Movement>();
+            Destroy(gameObject, lifetime);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Dungeon
 {
     [CustomEditor(typeof(Spikes))]
-    public class SpikesInspector : Editor
+    public class SpikesEditor : Editor
     {
         Spikes spikes;
         private void OnEnable()

@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 namespace Dungeon
 {
     [CustomEditor(typeof(Door))]
-    public class DoorInspector : Editor
+    public class DoorEditor : Editor
     {
         private Door door;
         private Key key;

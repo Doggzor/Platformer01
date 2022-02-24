@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -7,12 +5,11 @@ namespace Dungeon
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(LinearMovement))]
-    public class LinearMovementInspector : Editor
+    public class LinearMovementEditor : Editor
     {
         LinearMovement t;
         private int selectedDir;
         private string[] buttonStrings = { "", "", "", "", "", "", "", "", "" };
-        private string currentRelativeButtonText;
         private void OnEnable()
         {
             t = (LinearMovement)target;
@@ -20,16 +17,16 @@ namespace Dungeon
         }
         public override void OnInspectorGUI()
         {
-            GUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
 
             //Left column
-            GUILayout.BeginVertical();
-            GUILayout.Space(EditorGUIUtility.singleLineHeight * 1.5f);
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight * 1.5f);
             t.Delay = EditorGUILayout.FloatField(new GUIContent("Delay (Seconds)", "Delay in seconds before the object starts moving"), Mathf.Max(0f, t.Delay));
             EditorGUILayout.Separator();
             t.Speed = EditorGUILayout.FloatField("Speed", Mathf.Max(0f, t.Speed));
             EditorGUILayout.Separator();
-            GUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("Relative to");
             if (GUILayout.Button(t.RelativeSpace.ToString()))
             {
@@ -37,12 +34,12 @@ namespace Dungeon
                 t.RelativeSpace = (Space)(((int)t.RelativeSpace + 1) % 2);
                 PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
 
             GUILayout.FlexibleSpace();
             //Right column
-            GUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical();
             EditorGUILayout.PrefixLabel("Direction");
             EditorGUI.BeginChangeCheck();
             selectedDir = GUILayout.SelectionGrid(selectedDir, buttonStrings, 3, GUILayout.Height(120), GUILayout.MaxWidth(120));
@@ -53,9 +50,9 @@ namespace Dungeon
                 SetDirection();
                 PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             }
-            GUILayout.EndVertical();
-            
-            GUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.EndHorizontal();
 
             //Next Section
             EditorGUILayout.Separator();
@@ -70,30 +67,30 @@ namespace Dungeon
                 case LinearMovement.Mode.Patrol:
                     t.Distance = EditorGUILayout.FloatField("Distance", Mathf.Max(0.1f, t.Distance));
                     //Cycles
-                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.BeginHorizontal();
                     t.IsInfinite = EditorGUILayout.Toggle(new GUIContent("Infinite", "Should the movement pattern repeat indefinitely"), t.IsInfinite);
                     EditorGUI.BeginDisabledGroup(t.IsInfinite);
                     t.Cycles = EditorGUILayout.IntField(new GUIContent("Cycles", "How many times will the movement pattern repeat"), Mathf.Max(0, t.Cycles));
                     EditorGUI.EndDisabledGroup();
-                    GUILayout.EndHorizontal();
+                    EditorGUILayout.EndHorizontal();
                     //Delay Between Cycles
-                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.BeginHorizontal();
                     EditorGUI.BeginChangeCheck();
                     t.HasDelayBetweenCycles = EditorGUILayout.Toggle(new GUIContent("Delay (Cycles)", "How long to wait before moving after each full cycle"), t.HasDelayBetweenCycles);
                     if (EditorGUI.EndChangeCheck() && t.HasDelayBetweenCycles && t.HasDelayBetweenPositions) t.HasDelayBetweenPositions = false;
                     EditorGUI.BeginDisabledGroup(!t.HasDelayBetweenCycles);
                     t.DelayBetweenCycles = EditorGUILayout.FloatField("Seconds", Mathf.Max(0f, t.DelayBetweenCycles));
                     EditorGUI.EndDisabledGroup();
-                    GUILayout.EndHorizontal();
+                    EditorGUILayout.EndHorizontal();
                     //Delay Between Steps
-                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.BeginHorizontal();
                     EditorGUI.BeginChangeCheck();
                     t.HasDelayBetweenPositions = EditorGUILayout.Toggle(new GUIContent("Delay (Steps)", "How long to wait before moving after each step"), t.HasDelayBetweenPositions);
                     if (EditorGUI.EndChangeCheck() && t.HasDelayBetweenCycles && t.HasDelayBetweenPositions) t.HasDelayBetweenCycles = false;
                     EditorGUI.BeginDisabledGroup(!t.HasDelayBetweenPositions);
                     t.DelayBetweenPositions = EditorGUILayout.FloatField("Seconds", Mathf.Max(0f, t.DelayBetweenPositions));
                     EditorGUI.EndDisabledGroup();
-                    GUILayout.EndHorizontal();
+                    EditorGUILayout.EndHorizontal();
                     break;
             }
         }
@@ -101,7 +98,6 @@ namespace Dungeon
         private void SetDirection()
         {
             t.Direction = new Vector2( (selectedDir % 3) - 1, -((selectedDir / 3) - 1) );
-            selectedDir = DirectionToIndex();
         }
         private int DirectionToIndex()
         {

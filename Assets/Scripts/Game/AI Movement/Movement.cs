@@ -10,12 +10,12 @@ namespace Dungeon
         public float Speed = 1;
 
         protected bool startMovement = false;
-        private void Start()
+        protected virtual void Start()
         {
             Initialize();
             StartCoroutine(Co_WaitForDelay());
         }
-        private void Update()
+        protected virtual void Update()
         {
             if (startMovement)
                 UpdatePosition();

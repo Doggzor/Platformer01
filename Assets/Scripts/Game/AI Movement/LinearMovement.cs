@@ -37,7 +37,6 @@ namespace Dungeon
             Direction.Normalize();
             EndPos = StartPos + newDirection.normalized * Distance;
             NextPos = EndPos;
-            Debug.Log(Direction);
         }
 
         public override void UpdatePosition()
