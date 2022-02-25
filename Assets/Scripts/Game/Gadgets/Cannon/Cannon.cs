@@ -7,17 +7,19 @@ namespace Dungeon
     public class Cannon : MonoBehaviour
     {
         [Header("Settings")]
-        [Tooltip("Time in seconds before the first shot")]
-        [Min(0f)]
-        [SerializeField] private float delay;
-        [Tooltip("Time in seconds between shots")]
-        [Min(1.0f)]
-        [SerializeField] private float fireRate = 1.0f;
+        [SerializeField, Min(0f), Tooltip("Time in seconds before the first shot")]
+        private float delay;
+        [SerializeField, Min(1.0f), Tooltip("Time in seconds between shots")]
+        private float fireRate = 1.0f;
         [Header("Components")]
-        [SerializeField] private Projectile projectile;
-        [SerializeField] private SpriteRenderer bodyLightsRed;
-        [SerializeField] protected Transform turretController;
-        [SerializeField] private Transform turretLightsPivot;
+        [SerializeField]
+        private Projectile projectile;
+        [SerializeField]
+        private SpriteRenderer bodyLightsRed;
+        [SerializeField]
+        protected Transform turretController;
+        [SerializeField]
+        private Transform turretLightsPivot;
         private Animation anim;
         private ParticleSystem fireParticles;
 

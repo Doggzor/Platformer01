@@ -17,12 +17,15 @@ namespace Dungeon
         }
         public override void OnInspectorGUI()
         {
+            Undo.RecordObject(t, $"{t.name} Change");
+
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.BeginHorizontal();
 
             //Left column
             EditorGUILayout.BeginVertical();
             EditorGUILayout.Space(EditorGUIUtility.singleLineHeight * 1.5f);
-            t.Delay = EditorGUILayout.FloatField(new GUIContent("Delay (Seconds)", "Delay in seconds before the object starts moving"), Mathf.Max(0f, t.Delay));
+            t.Delay = EditorGUILayout.FloatField(new GUIContent("Delay", "Delay in seconds before the object starts moving"), Mathf.Max(0f, t.Delay));
             EditorGUILayout.Separator();
             t.Speed = EditorGUILayout.FloatField("Speed", Mathf.Max(0f, t.Speed));
             EditorGUILayout.Separator();
@@ -30,9 +33,7 @@ namespace Dungeon
             EditorGUILayout.PrefixLabel("Relative to");
             if (GUILayout.Button(t.RelativeSpace.ToString()))
             {
-                Undo.RecordObject(t, "Change Relative Space");
                 t.RelativeSpace = (Space)(((int)t.RelativeSpace + 1) % 2);
-                PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
@@ -46,9 +47,7 @@ namespace Dungeon
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.undoRedoPerformed += () => selectedDir = DirectionToIndex();
-                Undo.RecordObject(t, "Change Direction");
                 SetDirection();
-                PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             }
             EditorGUILayout.EndVertical();
 
@@ -59,8 +58,6 @@ namespace Dungeon
             t.MovementMode = (LinearMovement.Mode)EditorGUILayout.EnumPopup("Mode", t.MovementMode);
             switch (t.MovementMode)
             {
-                case LinearMovement.Mode.Continuous:
-                    break;
                 case LinearMovement.Mode.Once:
                     t.Distance = EditorGUILayout.FloatField("Distance", Mathf.Max(0.1f, t.Distance));
                     break;
@@ -92,7 +89,17 @@ namespace Dungeon
                     EditorGUI.EndDisabledGroup();
                     EditorGUILayout.EndHorizontal();
                     break;
+                default:
+                    break;
             }
+
+            //PrefabUtility.RecordPrefabInstancePropertyModifications(t); //From testing, this doesn't seem to be needed, but whatever
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                SceneView.RepaintAll();
+            }
+            
         }
 
         private void SetDirection()

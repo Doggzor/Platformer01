@@ -1221,6 +1221,7 @@ GameObject:
   - component: {fileID: 58702114}
   - component: {fileID: 58702113}
   - component: {fileID: 58702119}
+  - component: {fileID: 58702117}
   m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
@@ -1238,8 +1239,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -1261,7 +1262,7 @@ PlatformEffector2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58702112}
-  m_Enabled: 0
+  m_Enabled: 1
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
@@ -1272,7 +1273,7 @@ PlatformEffector2D:
   m_SurfaceArc: 179
   m_UseSideFriction: 0
   m_UseSideBounce: 0
-  m_SideArc: 1
+  m_SideArc: 0
 --- !u!212 &58702115
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1331,13 +1332,30 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58702112}
-  m_LocalRotation: {x: 0, y: 0, z: 0.87881714, w: 0.4771588}
-  m_LocalPosition: {x: -9.21, y: 7.09, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.05, y: -1.33, z: 0}
   m_LocalScale: {x: 1.0885136, y: 0.23, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 123}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &58702117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58702112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de804f5b61f03fd4db4da2e0599e0e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  Speed: 14.77
+  arc: 360
+  MovementMode: 0
+  Clockwise: 1
 --- !u!114 &58702119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,12 +1368,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31efeb2ac64a7a4abdfbf09eaef6e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delay: 0.96
-  Speed: 1.26
-  Direction: {x: -1, y: 0}
+  Delay: 0
+  Speed: 2.19
+  Direction: {x: -1, y: 1}
   RelativeSpace: 0
-  MovementMode: 2
-  Distance: 2.73
+  MovementMode: 1
+  Distance: 2.47
   IsInfinite: 0
   Cycles: 3
   HasDelayBetweenPositions: 0
@@ -6045,9 +6063,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de804f5b61f03fd4db4da2e0599e0e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  Delay: 0
+  Speed: 1
   arc: 102
-  clockwise: 1
+  MovementMode: 0
+  Clockwise: 1
 --- !u!4 &1154948532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7055357643174386027, guid: f853b6f8f9080cf41aa078ca46f14a5b, type: 3}
