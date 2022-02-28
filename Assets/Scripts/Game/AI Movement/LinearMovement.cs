@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dungeon
@@ -19,14 +17,18 @@ namespace Dungeon
         public float Distance = 0f;
 
         #region Patrol Specific Variables
+        public bool HasConstantSpeed = true;
+        public float OnwardSpeed = 0f;
+        public float ReturnSpeed = 0f;
         public bool IsInfinite = true;
         public int Cycles = 0;
-        public bool HasDelayBetweenPositions = false;
-        public bool HasDelayBetweenCycles = false;
-        public float DelayBetweenPositions = 0f;
-        public float DelayBetweenCycles = 0f;
-        private float currentDelayBetweenPositions = 0f;
-        private float currentDelayBetweenCycles = 0f;
+        public bool HasDelayAtEndPos = false;
+        public bool HasDelayAtStartPos = false;
+        public float DelayAtEndPos = 0f;
+        public float DelayAtStartPos = 0f;
+        private float currentDelayAtEndPos = 0f;
+        private float currentDelayAtStartPos = 0f;
+        private bool isTryingToChangePosition = false;
         #endregion
 
         private Vector2 StartPos = Vector2.zero;
@@ -34,13 +36,14 @@ namespace Dungeon
         private Vector2 NextPos = Vector2.zero;
         public override void Initialize()
         {
-            currentDelayBetweenPositions = DelayBetweenPositions;
-            currentDelayBetweenCycles = DelayBetweenCycles;
+            currentDelayAtEndPos = DelayAtEndPos;
+            currentDelayAtStartPos = DelayAtStartPos;
             StartPos = transform.position;
             Vector2 newDirection = RelativeSpace == Space.World ? Direction : Direction.RotatedByAngleZ(transform.rotation.eulerAngles.z);
             Direction.Normalize();
             EndPos = StartPos + newDirection.normalized * Distance;
             NextPos = EndPos;
+            if (!IsInfinite && Cycles > 0) --Cycles;
         }
 
         public override void UpdatePosition()
@@ -51,7 +54,7 @@ namespace Dungeon
                     return;
                 case Mode.Once:
                     transform.position = Vector2.MoveTowards(current: transform.position, target: NextPos, Speed * Time.deltaTime);
-                    if (Vector2.Distance(transform.position, EndPos) < 0.01f)
+                    if (Vector2.Distance(transform.position, NextPos) < 0.01f)
                     {
                         MovementMode = Mode.None;
                     }
@@ -60,13 +63,15 @@ namespace Dungeon
                     transform.Translate(Speed * Time.deltaTime * Direction, RelativeSpace);
                     break;
                 case Mode.Patrol:
-                    transform.position = Vector2.MoveTowards(current: transform.position, target: NextPos, Speed * Time.deltaTime);
-                    if (Cycles > 0 || IsInfinite)
+                    if (Cycles >= 0 || IsInfinite)
                     {
+                        Speed = HasConstantSpeed ? Speed : NextPos == EndPos ? OnwardSpeed : ReturnSpeed;
+                        transform.position = Vector2.MoveTowards(current: transform.position, target: NextPos, Speed * Time.deltaTime);
                         if (Vector2.Distance(transform.position, NextPos) < 0.01f)
                         {
-                            TryChangeNextPos();
+                            isTryingToChangePosition = true;
                         }
+                        if (isTryingToChangePosition) TryToChangePosition();
                     }
                     else
                     {
@@ -74,44 +79,55 @@ namespace Dungeon
                     }
                     break;
             }
-        }
-
-        private void TryChangeNextPos()
-        {
-            if (HasDelayBetweenPositions && currentDelayBetweenPositions > 0f)
+            //Update NextPos in case some values have changed during runtime
+            if (RelativeSpace == Space.Self)
             {
-                currentDelayBetweenPositions -= Time.deltaTime;
-                return;
+                EndPos = StartPos + Direction.RotatedByAngleZ(transform.rotation.eulerAngles.z) * Distance;
+                if (NextPos != StartPos) NextPos = EndPos;
             }
-            currentDelayBetweenPositions = DelayBetweenPositions;
-            DetectNextPosition();
         }
 
-        private void DetectNextPosition()
+        private void TryToChangePosition()
         {
             if (NextPos == EndPos)
             {
-                SetNextPosition(StartPos);
+                ProcessEndToStartPosTransition();
                 return;
             }
-            if (HasDelayBetweenCycles && currentDelayBetweenCycles > 0f)
+
+            if (NextPos == StartPos)
             {
-                currentDelayBetweenCycles -= Time.deltaTime;
+                ProcessStartToEndPosTransition();
                 return;
             }
-            SetNextPosition(EndPos);
         }
 
-        private void SetNextPosition(Vector2 position)
+        private void ProcessEndToStartPosTransition()
         {
-            NextPos = position;
-            if (position == EndPos)
+            if (HasDelayAtEndPos && currentDelayAtEndPos > 0f)
             {
-                currentDelayBetweenCycles = DelayBetweenCycles;
-                if (!IsInfinite) Cycles--;
+                currentDelayAtEndPos -= Time.deltaTime;
+                return;
             }
+            isTryingToChangePosition = false;
+            currentDelayAtEndPos = DelayAtEndPos;
+            NextPos = StartPos;
+            return;
         }
 
+        private void ProcessStartToEndPosTransition()
+        {
+            if (HasDelayAtStartPos && currentDelayAtStartPos > 0f)
+            {
+                currentDelayAtStartPos -= Time.deltaTime;
+                return;
+            }
+            isTryingToChangePosition = false;
+            currentDelayAtStartPos = DelayAtStartPos;
+            if (!IsInfinite) Cycles--;
+            NextPos = EndPos;
+        }
+#if UNITY_EDITOR
         public void OnDrawGizmosSelected()
         {
             if (MovementMode != Mode.None && isActiveAndEnabled)
@@ -127,11 +143,14 @@ namespace Dungeon
                 }
                 else
                 {
-                    Vector2 endPos = !Application.isPlaying ? (Vector2)transform.position + direction.normalized * Distance : NextPos;
-                    Gizmos.DrawLine(transform.position, endPos);
+                    Vector2 startPos = Application.isPlaying ? StartPos : (Vector2)transform.position;
+                    Vector2 endPos = Application.isPlaying ? EndPos : (Vector2)transform.position + direction.normalized * Distance;
+                    Gizmos.DrawLine(startPos, endPos);
+                    Helpers.DrawGizmosWireCube(startPos, transform.rotation, transform.localScale);
                     Helpers.DrawGizmosWireCube(endPos, transform.rotation, transform.localScale);
                 }
             }
         }
+#endif
     }
 }

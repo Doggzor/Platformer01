@@ -231,14 +231,17 @@ MonoBehaviour:
   Speed: 2.5
   Direction: {x: 0, y: 1}
   RelativeSpace: 1
-  MovementMode: 1
-  Distance: 0
+  MovementMode: 2
+  Distance: 0.1
+  HasConstantSpeed: 1
+  OnwardSpeed: 0
+  ReturnSpeed: 0
   IsInfinite: 1
   Cycles: 0
-  HasDelayBetweenPositions: 0
-  HasDelayBetweenCycles: 0
-  DelayBetweenPositions: 0
-  DelayBetweenCycles: 0
+  HasDelayAtEndPos: 0
+  HasDelayAtStartPos: 0
+  DelayAtEndPos: 0
+  DelayAtStartPos: 0
 --- !u!111 &5757385823433309750
 Animation:
   m_ObjectHideFlags: 0

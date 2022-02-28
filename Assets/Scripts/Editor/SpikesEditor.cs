@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Dungeon
 {
-    [CustomEditor(typeof(Spikes))]
+    [CustomEditor(typeof(Spikes)), CanEditMultipleObjects]
     public class SpikesEditor : Editor
     {
         Spikes spikes;
