@@ -11,7 +11,8 @@ namespace Dungeon
         {
             None,
             SingleDirection,
-            BackAndForth
+            BackAndForth,
+            AimAtTarget
         }
         [Range(0, 360)]
         public int Arc = 360;
@@ -26,6 +27,13 @@ namespace Dungeon
         public bool HasDelayAtStartPos = false;
         public float DelayAtEndPos = 0f;
         public float DelayAtStartPos = 0f;
+#region AimAtTarget
+        public Transform Target;
+        public float DetectionRadius;
+        public bool IsInstantAim;
+        public bool IsInfiniteRange;
+        private bool IsTargetInRange => Target != null && Vector2.Distance(transform.position, Target.position) <= DetectionRadius;
+        #endregion
         private int positionReachedCounter = 0;
         private float currentDelayAtEndPos = 0f;
         private float currentDelayAtStartPos = 0f;
@@ -64,6 +72,19 @@ namespace Dungeon
                         Speed = HasConstantSpeed ? Speed : positionReachedCounter % 2 == 0 ? OnwardSpeed : ReturnSpeed;
                     }
                     break;
+                case Mode.AimAtTarget:
+                    if (IsInfiniteRange || IsTargetInRange)
+                    {
+                        Vector2 targetVector = (Target.position - transform.position);
+                        if (IsInstantAim) transform.up = targetVector;
+                        else
+                        {
+                            float rotationZ = Mathf.Atan2(targetVector.y, targetVector.x) * Mathf.Rad2Deg - 90.0f;
+                            rotationZ = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, rotationZ, Speed * Time.deltaTime);
+                            transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
+                        }
+                    }
+                    return;
             }
             if (!IsTargetPositionReached) PerformMovement();
             if (!IsInfinite && Cycles < 0) MovementMode = Mode.None;
@@ -129,20 +150,38 @@ namespace Dungeon
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
-            if (MovementMode != Mode.None && isActiveAndEnabled)
+            if (isActiveAndEnabled)
             {
-                Color handlesColor = IsMovingClockwise ? Color.green : Color.yellow;
-                handlesColor.a = 0.25f;
-                UnityEditor.Handles.color = handlesColor;
-                Vector3 normal = IsMovingClockwise ? Vector3.back : Vector3.forward;
-                Vector2 from = Vector2.up.RotatedByAngleZ(transform.rotation.eulerAngles.z);
-                UnityEditor.Handles.ArrowHandleCap(1, transform.position + (Vector3)from * 0.5f, Quaternion.FromToRotation(normal, from.RotatedByAngleZ(90.0f)), 0.5f, EventType.Repaint);
-                if (Application.isPlaying)
+                Color handlesColor = Color.green;
+                switch (MovementMode)
                 {
-                    normal = startClockwise ? Vector3.back : Vector3.forward;
-                    from = Vector2.up.RotatedByAngleZ(startRotation);
+                    case Mode.None:
+                        break;
+                    case Mode.SingleDirection:
+                    case Mode.BackAndForth:
+                        handlesColor = IsMovingClockwise ? Color.green : Color.yellow;
+                        handlesColor.a = 0.35f;
+                        UnityEditor.Handles.color = handlesColor;
+                        Vector3 normal = IsMovingClockwise ? Vector3.back : Vector3.forward;
+                        Vector2 from = Vector2.up.RotatedByAngleZ(transform.rotation.eulerAngles.z);
+                        UnityEditor.Handles.ArrowHandleCap(1, transform.position + (Vector3)from * 0.5f, Quaternion.FromToRotation(normal, from.RotatedByAngleZ(90.0f)), 0.5f, EventType.Repaint);
+                        if (Application.isPlaying)
+                        {
+                            normal = startClockwise ? Vector3.back : Vector3.forward;
+                            from = Vector2.up.RotatedByAngleZ(startRotation);
+                        }
+                        UnityEditor.Handles.DrawSolidArc(transform.position, normal, from, Arc, 0.4f);
+                        break;
+                    case Mode.AimAtTarget:
+                        if (!IsInfiniteRange && Target != null)
+                        {
+                            if (IsTargetInRange) handlesColor = Color.red;
+                            handlesColor.a = 0.15f;
+                            UnityEditor.Handles.color = handlesColor;
+                            UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.forward, Vector3.up, 360.0f, DetectionRadius);
+                        }
+                        break;
                 }
-                UnityEditor.Handles.DrawSolidArc(transform.position, normal, from, Arc, 0.4f);
             }
         }
 #endif

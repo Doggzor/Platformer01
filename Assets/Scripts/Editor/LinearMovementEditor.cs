@@ -12,7 +12,6 @@ namespace Dungeon
         private void OnEnable()
         {
             t = (LinearMovement)target;
-            selectedDir = DirectionToIndex();
         }
         public override void OnInspectorGUI()
         {
@@ -42,10 +41,9 @@ namespace Dungeon
             EditorGUILayout.BeginVertical();
             EditorGUILayout.PrefixLabel("Direction");
             EditorGUI.BeginChangeCheck();
-            selectedDir = GUILayout.SelectionGrid(selectedDir, buttonStrings, 3, GUILayout.Height(120), GUILayout.MaxWidth(120));
+            selectedDir = GUILayout.SelectionGrid(DirectionToIndex(), buttonStrings, 3, GUILayout.Height(120), GUILayout.MaxWidth(120));
             if (EditorGUI.EndChangeCheck())
-            {
-                Undo.undoRedoPerformed += () => selectedDir = DirectionToIndex();
+            {               
                 SetDirection();
             }
             EditorGUILayout.EndVertical();
@@ -107,7 +105,7 @@ namespace Dungeon
 
         private void SetDirection()
         {
-            t.Direction = new Vector2( (selectedDir % 3) - 1, -((selectedDir / 3) - 1) );
+            t.Direction = Vector2.right * ((selectedDir % 3) - 1) + Vector2.down * ((selectedDir / 3) - 1);
         }
         private int DirectionToIndex()
         {

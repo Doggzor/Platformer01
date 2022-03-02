@@ -18,23 +18,15 @@ namespace Dungeon
             EditorGUI.BeginChangeCheck();
 
             t.Delay = EditorGUILayout.FloatField(new GUIContent("Delay", "Delay in seconds before the object starts moving"), Mathf.Max(0f, t.Delay));
+            EditorGUI.BeginDisabledGroup(IsSpeedVariableDisabled());
             t.Speed = EditorGUILayout.FloatField(new GUIContent("Speed", "Angles per second"), Mathf.Max(0f, t.Speed));
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("Direction");
-            if (GUILayout.Button(t.IsMovingClockwise ? "Clockwise" : "Counter Clockwise"))
-            {
-                t.IsMovingClockwise = !t.IsMovingClockwise;
-            }
-            EditorGUILayout.EndHorizontal();
+            EditorGUI.EndDisabledGroup();
             t.MovementMode = (RotationalMovement.Mode)EditorGUILayout.EnumPopup("Mode", t.MovementMode);
-            if (t.MovementMode != RotationalMovement.Mode.None)
-            {
-                t.Arc = EditorGUILayout.IntSlider("Arc", t.Arc, 0, 360);
-                if (t.Arc == 0) EditorGUILayout.HelpBox("Object will not move if the arc is set to 0", MessageType.Warning);               
-            }
             switch (t.MovementMode)
             {
                 case RotationalMovement.Mode.SingleDirection:
+                    DrawDirectionChoiceButton();
+                    DrawArc();
                     EditorGUILayout.BeginHorizontal();
                     t.IsInfinite = EditorGUILayout.Toggle(new GUIContent("Infinite", "Should the movement pattern repeat indefinitely"), t.IsInfinite);
                     EditorGUI.BeginDisabledGroup(t.IsInfinite);
@@ -49,6 +41,8 @@ namespace Dungeon
                     EditorGUILayout.EndHorizontal();
                     break;
                 case RotationalMovement.Mode.BackAndForth:
+                    DrawDirectionChoiceButton();
+                    DrawArc();
                     EditorGUILayout.BeginHorizontal();
                     t.IsInfinite = EditorGUILayout.Toggle(new GUIContent("Infinite", "Should the movement pattern repeat indefinitely"), t.IsInfinite);
                     EditorGUI.BeginDisabledGroup(t.IsInfinite);
@@ -76,6 +70,13 @@ namespace Dungeon
                     EditorGUI.EndDisabledGroup();
                     EditorGUILayout.EndHorizontal();
                     break;
+                case RotationalMovement.Mode.AimAtTarget:
+                    t.Target = EditorGUILayout.ObjectField("Target", t.Target, typeof(Transform), true) as Transform;
+                    t.IsInstantAim = EditorGUILayout.Toggle(new GUIContent("Instant Aim", "Should the object rotate towards target instantly\nNOTE: Overrides speed"), t.IsInstantAim);
+                    t.IsInfiniteRange = EditorGUILayout.Toggle(new GUIContent("Infinite Range", "Is the object able to detect the target anywhere on the map"), t.IsInfiniteRange);
+                    if(!t.IsInfiniteRange)
+                        t.DetectionRadius = EditorGUILayout.Slider("Range", t.DetectionRadius, 0f, 20.0f);
+                    break;
                 default:
                     break;
             }
@@ -86,6 +87,32 @@ namespace Dungeon
             {
                 SceneView.RepaintAll();
             }
+        }
+
+        private bool IsSpeedVariableDisabled() => t.MovementMode switch
+        {
+            RotationalMovement.Mode.None => true,
+            RotationalMovement.Mode.SingleDirection => false,
+            RotationalMovement.Mode.BackAndForth => !t.HasConstantSpeed,
+            RotationalMovement.Mode.AimAtTarget => t.IsInstantAim,
+            _ => false,
+        };
+
+        private void DrawDirectionChoiceButton()
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("Direction");
+            if (GUILayout.Button(t.IsMovingClockwise ? "Clockwise" : "Counter Clockwise"))
+            {
+                t.IsMovingClockwise = !t.IsMovingClockwise;
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawArc()
+        {
+            t.Arc = EditorGUILayout.IntSlider("Arc", t.Arc, 0, 360);
+            if (t.Arc == 0) EditorGUILayout.HelpBox("Object will not move if the arc is set to 0", MessageType.Warning);
         }
     }
 }

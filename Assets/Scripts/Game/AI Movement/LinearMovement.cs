@@ -139,7 +139,10 @@ namespace Dungeon
 
                 if (MovementMode == Mode.Continuous)
                 {
-                    Gizmos.DrawLine(transform.position, (Vector2)transform.position + direction.normalized);
+                    Color handlesColor = Color.green;
+                    handlesColor.a = 0.25f;
+                    UnityEditor.Handles.color = handlesColor;
+                    UnityEditor.Handles.ArrowHandleCap(1, transform.position, Quaternion.FromToRotation(Vector3.forward, direction), 1.0f, EventType.Repaint);
                 }
                 else
                 {

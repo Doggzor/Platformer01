@@ -39,6 +39,10 @@ namespace Dungeon
             turretLightChargeUpStartTime = fireRate * 0.2f;
             turretLightMultiplier = 1.0f / turretLightChargeUpStartTime;
         }
+        private void Start()
+        {
+            
+        }
         private void Update()
         {
             timer -= Time.deltaTime;
