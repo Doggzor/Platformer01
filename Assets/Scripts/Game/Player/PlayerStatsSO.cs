@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dungeon
 {
-    [System.Serializable]
-    public class PlayerStats : MonoBehaviour
+    [CreateAssetMenu(fileName = "PlayerStats", menuName = "Game/Player/Stats")]
+    public class PlayerStatsSO : ScriptableObject
     {
         [Space]
         [Header("Movement")]

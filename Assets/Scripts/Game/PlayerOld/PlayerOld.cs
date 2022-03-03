@@ -35,9 +35,9 @@ namespace Dungeon
         [SerializeField] float gravityFallMultiplier = 1.5f;
 
         [Space]
-        [SerializeField] PlayerSkinPrefab skin = null;
+        [SerializeField] PlayerSkinSO skin = null;
         [Space]
-        [SerializeReference] PlayerInput input = new PlayerInputController();
+        [SerializeReference] PlayerInputSO input = new PlayerControllerSO();
     
 
         private void Awake()

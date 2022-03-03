@@ -1376,7 +1376,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58702112}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31efeb2ac64a7a4abdfbf09eaef6e89, type: 3}
   m_Name: 
@@ -1385,7 +1385,7 @@ MonoBehaviour:
   Speed: 1.41
   Direction: {x: 1, y: 0}
   RelativeSpace: 1
-  MovementMode: 0
+  MovementMode: 2
   Distance: 2.04
   HasConstantSpeed: 0
   OnwardSpeed: 4.5
@@ -6272,41 +6272,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1066561976 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6297628499573969311, guid: c8f076e1906766a4783757c1d79d5119, type: 3}
-  m_PrefabInstance: {fileID: 6297628500808322677}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1066561980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1066561976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de804f5b61f03fd4db4da2e0599e0e9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Delay: 0
-  Speed: 30
-  Arc: 90
-  MovementMode: 2
-  IsMovingClockwise: 1
-  HasConstantSpeed: 0
-  OnwardSpeed: 114.6
-  ReturnSpeed: 20.4
-  IsInfinite: 1
-  Cycles: 0
-  HasDelayAtEndPos: 1
-  HasDelayAtStartPos: 1
-  DelayAtEndPos: 0.5
-  DelayAtStartPos: 0
-  Target: {fileID: 0}
-  DetectionRadius: 0
-  IsInstantAim: 0
-  IsInfiniteRange: 0
 --- !u!4 &1154948532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7055357643174386027, guid: f853b6f8f9080cf41aa078ca46f14a5b, type: 3}

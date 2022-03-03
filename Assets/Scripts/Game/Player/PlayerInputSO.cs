@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dungeon
 {
-    public abstract class PlayerInput : MonoBehaviour
+    public abstract class PlayerInputSO : ScriptableObject
     {
         public float directionX { get; protected set; } = 0f;
         public float jumpPressTime { get; set; } = -1f;

@@ -4,6 +4,6 @@ namespace Dungeon
 {
     public interface IInteractable
     {
-        void OnInteraction(Player caller);
+        void OnInteract(Player caller);
     }
 }

@@ -5,18 +5,19 @@ using UnityEngine;
 
 namespace Dungeon
 {
-    public class PlayerInputController : PlayerInput
+    [CreateAssetMenu(fileName = "Controller", menuName = "Game/Player/Controller")]
+    public class PlayerControllerSO : PlayerInputSO
     {
         [SerializeField]
-        PlayerControls controls = new PlayerControls(KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.UpArrow);
+        private PlayerControls controls;
         public override void Read()
         {
             if (isEnabled)
             {
-                directionX = Convert.ToInt32(Input.GetKey(controls.rightKey)) - Convert.ToInt32(Input.GetKey(controls.leftKey));
-                if (Input.GetKeyDown(controls.jumpKey))
+                directionX = Convert.ToInt32(Input.GetKey(controls.RightKey)) - Convert.ToInt32(Input.GetKey(controls.LeftKey));
+                if (Input.GetKeyDown(controls.JumpKey))
                     jumpPressTime = Time.time;
-                if (Input.GetKeyUp(controls.jumpKey))
+                if (Input.GetKeyUp(controls.JumpKey))
                     jumpReleaseTime = Time.time;
             }
             else

@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dungeon
 {
-    [RequireComponent(typeof(PlayerStats))]
     public class Player : MonoBehaviour
     {
         public PlayerStateMachine StateMachine { get; private set; }
@@ -14,20 +11,15 @@ namespace Dungeon
 
         [Space]
         [SerializeField]
-        private PlayerSkinPrefab skin = null;
+        private PlayerSkinSO Skin = null;
 
-        [SerializeField]
-        private LayerMask groundLayer;
-        public LayerMask GroundLayer { get => groundLayer; }
-
-        public PlayerInput PlayerInput { get; private set; }
-        public PlayerStats Stats { get; private set; }
+        [field: SerializeField] public PlayerStatsSO Stats { get; private set; }
+        [field: SerializeField] public PlayerInputSO PlayerInput { get; private set; }
+        [field: SerializeField] public LayerMask GroundLayer { get; private set; }
 
         private void Awake()
         {
             StateMachine = new PlayerStateMachine(this);
-            PlayerInput = GetComponent<PlayerInput>();
-            Stats = GetComponent<PlayerStats>();
             Utilities = new PlayerUtilities(this);
             Actions = new PlayerActions(this);
 
@@ -64,15 +56,15 @@ namespace Dungeon
             var leg_front = sprite.transform.Find("Leg Front");
             var leg_back = sprite.transform.Find("Leg Back");
 
-            head.GetComponent<SpriteRenderer>().sprite = skin.head;
-            eye_front.GetComponent<SpriteRenderer>().sprite = skin.eye_front;
-            eye_back.GetComponent<SpriteRenderer>().sprite = skin.eye_back;
-            body.GetComponent<SpriteRenderer>().sprite = skin.body;
-            arm_front.GetComponent<SpriteRenderer>().sprite = skin.arm_front;
-            arm_back.GetComponent<SpriteRenderer>().sprite = skin.arm_back;
-            tail.GetComponent<SpriteRenderer>().sprite = skin.tail;
-            leg_front.GetComponent<SpriteRenderer>().sprite = skin.leg_front;
-            leg_back.GetComponent<SpriteRenderer>().sprite = skin.leg_back;
+            head.GetComponent<SpriteRenderer>().sprite = Skin.head;
+            eye_front.GetComponent<SpriteRenderer>().sprite = Skin.eye_front;
+            eye_back.GetComponent<SpriteRenderer>().sprite = Skin.eye_back;
+            body.GetComponent<SpriteRenderer>().sprite = Skin.body;
+            arm_front.GetComponent<SpriteRenderer>().sprite = Skin.arm_front;
+            arm_back.GetComponent<SpriteRenderer>().sprite = Skin.arm_back;
+            tail.GetComponent<SpriteRenderer>().sprite = Skin.tail;
+            leg_front.GetComponent<SpriteRenderer>().sprite = Skin.leg_front;
+            leg_back.GetComponent<SpriteRenderer>().sprite = Skin.leg_back;
         }
     }
 }

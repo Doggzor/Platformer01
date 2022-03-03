@@ -13,7 +13,7 @@ namespace Dungeon
         {
             anim = GetComponent<Animation>();
         }
-        public void OnInteraction(Player caller)
+        public void OnInteract(Player caller)
         {
             float callerBottomPoint = caller.transform.position.y - caller.GetComponent<Collider2D>().bounds.extents.y;
             if (callerBottomPoint > transform.position.y)
