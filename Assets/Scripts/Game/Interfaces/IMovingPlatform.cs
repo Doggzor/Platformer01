@@ -1,6 +1,6 @@
 ﻿namespace Dungeon
 {
-    public interface IMoving
+    public interface IMovingPlatform
     {
     }
 }

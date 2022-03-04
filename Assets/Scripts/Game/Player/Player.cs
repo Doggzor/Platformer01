@@ -9,9 +9,8 @@ namespace Dungeon
         public PlayerUtilities Utilities { get; private set; }
         public PlayerActions Actions { get; private set; }
 
-        [Space]
-        [SerializeField]
-        private PlayerSkinSO Skin = null;
+        [SerializeField, Space]
+        private PlayerSkinSO Skin;
 
         [field: SerializeField] public PlayerStatsSO Stats { get; private set; }
         [field: SerializeField] public PlayerInputSO PlayerInput { get; private set; }
@@ -37,10 +36,6 @@ namespace Dungeon
         private void FixedUpdate()
         {
             State.UpdatePhysics();
-        }
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            State.HandleTriggerCollisions(collision);
         }
 
         public void ApplySkin()

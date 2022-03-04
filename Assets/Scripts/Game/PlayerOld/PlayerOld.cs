@@ -103,19 +103,6 @@ namespace Dungeon
             rb.AddForce(new Vector2(dirX * acceleration, 0), ForceMode2D.Impulse);
             rb.velocity = new Vector2(Mathf.Min(Mathf.Abs(rb.velocity.x), speed) * dirX, rb.velocity.y);
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent<IDanger>(out _))
-            {
-                StartCoroutine(Co_TriggerDeath());
-            }
-            else if (collision.TryGetComponent(out IPickable obj))
-            {
-                obj.OnPickUp();
-            }
-
-        }
         private IEnumerator Co_TriggerDeath()
         {
             state = State.DEAD;

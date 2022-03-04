@@ -11,6 +11,10 @@ namespace Dungeon
 
         public abstract void Read();
 
+        private void OnEnable()
+        {
+            ResetValues();
+        }
         public virtual void Enable()
         {
             isEnabled = true;
@@ -23,6 +27,7 @@ namespace Dungeon
         {
             directionX = 0f;
             jumpPressTime = -1f;
+            jumpReleaseTime = -1;
         }
     }
 }

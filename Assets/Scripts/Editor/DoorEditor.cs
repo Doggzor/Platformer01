@@ -8,15 +8,44 @@ namespace Dungeon
     public class DoorEditor : Editor
     {
         private Door door;
-        private Key key;
+        private Tilemap doorTiles;
+        private SpriteRenderer keyRenderer;
+        private GUIStyle style = new GUIStyle();
+        private readonly Color[] colors = new Color[] {
+            Color.red,
+            new Color(1.0f, 0.5f, 0.0f),
+            Color.yellow,
+            Color.green,
+            Color.cyan,
+            new Color(0.0f, 0.5f, 1.0f),
+            new Color(0.5f, 0.0f, 1.0f),
+            new Color(1.0f, 0.5f, 1.0f)
+        };
         private void OnEnable()
         {
             door = (Door)target;
-            key = door.transform.Find("Key").GetComponent<Key>();
+            doorTiles = door.GetComponent<Tilemap>();
+            keyRenderer = door.transform.Find("Key").GetComponent<SpriteRenderer>();
+            style.alignment = TextAnchor.MiddleCenter;
+            style.fontSize = 16;
+            style.normal.textColor = Color.white;
         }
         public override void OnInspectorGUI()
         {
-            key.GetComponent<SpriteRenderer>().color = door.GetComponent<Tilemap>().color;
+            Undo.RecordObject(doorTiles, $"Change {door.name} color");
+            EditorGUILayout.LabelField("Color", style);
+            EditorGUILayout.BeginHorizontal();
+            foreach (Color color in colors)
+            {
+                GUI.backgroundColor = color;
+                if (GUILayout.Button(""))
+                {
+                    doorTiles.color = color;
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+            keyRenderer.color = doorTiles.color;
+            PrefabUtility.RecordPrefabInstancePropertyModifications(doorTiles);
         }
     }
 }

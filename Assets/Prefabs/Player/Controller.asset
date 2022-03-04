@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Controller
   m_EditorClassIdentifier: 
   controls:
-    leftKey: 0
-    rightKey: 0
-    jumpKey: 0
+    LeftKey: 276
+    RightKey: 275
+    JumpKey: 273

@@ -6,12 +6,18 @@ namespace Dungeon
 {
     public class BouncePad : MonoBehaviour, IInteractable
     {
-        [SerializeField]
-        private float bounceForce;
+        [SerializeField] private float bounceForce;
         private Animation anim;
         private void Awake()
         {
             anim = GetComponent<Animation>();
+        }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent(out Player player))
+            {
+                OnInteract(player);
+            }
         }
         public void OnInteract(Player caller)
         {

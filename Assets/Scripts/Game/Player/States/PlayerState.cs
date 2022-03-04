@@ -33,21 +33,6 @@ namespace Dungeon
         public virtual void Animate()
         {
         }
-        public virtual void HandleTriggerCollisions(Collider2D collision)
-        {
-            if (collision.TryGetComponent<IDanger>(out _))
-            {
-                player.StateMachine.SwitchToState(player.StateMachine.Dead);
-            }
-            else if (collision.TryGetComponent(out IPickable pickableObject))
-            {
-                pickableObject.OnPickUp();
-            }
-            else if (collision.TryGetComponent(out IInteractable interactableObject))
-            {
-                interactableObject.OnInteract(player);
-            }
-        }
         public virtual void OnEnter()
         {
             player.Actions.SetGravity(player.Stats.gravityScale);

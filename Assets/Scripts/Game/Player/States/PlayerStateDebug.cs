@@ -15,9 +15,6 @@ namespace Dungeon
         public override void UpdatePhysics()
         {
         }
-        public override void HandleTriggerCollisions(Collider2D collision)
-        {
-        }
         public override void ProcessInput()
         {
             base.ProcessInput();

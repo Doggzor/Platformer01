@@ -13,7 +13,7 @@ namespace Dungeon
         private float fireRate = 1.0f;
         [Header("Components")]
         [SerializeField]
-        private Projectile projectile;
+        private Expirable projectile;
         [SerializeField]
         private SpriteRenderer bodyLightsRed;
         [SerializeField]

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Dungeon
+﻿namespace Dungeon
 {
     public interface IInteractable
     {

@@ -1,6 +1,0 @@
-﻿namespace Dungeon
-{
-    interface IDanger
-    {
-    }
-}
