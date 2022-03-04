@@ -28,6 +28,7 @@ namespace Dungeon
         private float bodyLightsMultiplier;
         private float turretLightChargeUpStartTime;
         private float turretLightMultiplier;
+        private Vector3 turretLightZeroScale = new Vector3(1.0f, 0.0f, 1.0f);
         private void Awake()
         {
             anim = GetComponent<Animation>();
@@ -66,14 +67,14 @@ namespace Dungeon
             {                  
                 bodyLightsRed.SetColorAlpha((bodyLightsChargeUpStartTime - timer) * bodyLightsMultiplier);
                 if (timer <= turretLightChargeUpStartTime)
-                    turretLightsPivot.localScale = new Vector3(1.0f, (turretLightChargeUpStartTime - timer) * turretLightMultiplier, 1.0f);
+                    turretLightsPivot.localScale = (turretLightChargeUpStartTime - timer) * turretLightMultiplier * Vector3.up + turretLightZeroScale;
             }
             else ResetLights();
         }
 
         private void ResetLights()
         {
-            turretLightsPivot.localScale = Vector3.zero;
+            turretLightsPivot.localScale = turretLightZeroScale;
             bodyLightsRed.SetColorAlpha(0f);
         }
 
