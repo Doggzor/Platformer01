@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -33,7 +31,7 @@ namespace Dungeon
         public bool IsInstantAim;
         public bool IsInfiniteRange;
         private bool IsTargetInRange => Target != null && Vector2.Distance(transform.position, Target.position) <= DetectionRadius;
-        #endregion
+#endregion
         private int positionReachedCounter = 0;
         private float currentDelayAtEndPos = 0f;
         private float currentDelayAtStartPos = 0f;

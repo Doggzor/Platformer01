@@ -17,7 +17,7 @@ namespace Dungeon
             Initialize();
             StartCoroutine(Co_WaitForDelay());
         }
-        protected virtual void Update()
+        protected virtual void FixedUpdate()
         {
             if (startMovement)
                 UpdatePosition();
