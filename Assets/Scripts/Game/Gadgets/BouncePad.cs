@@ -21,6 +21,7 @@ namespace Dungeon
         }
         public void OnInteract(Player caller)
         {
+            anim.Stop();
             anim.Play();
             caller.StateMachine.SwitchToState(new PlayerStateBouncing(caller.StateMachine, caller, bounceForce));
         }

@@ -9,7 +9,7 @@ namespace Dungeon
         public PlayerStateDead(PlayerStateMachine stateMachine, Player p) : base(stateMachine, p) { }
         public override void Animate()
         {
-            //animator.Play("Death");
+            animator.Play("Death");
         }
         public override void ProcessInput()
         {
