@@ -10,6 +10,7 @@ namespace Dungeon
         private Door door;
         private Tilemap doorTiles;
         private SpriteRenderer keyRenderer;
+        private Light keyGlow;
         private GUIStyle style = new GUIStyle();
         private readonly Color[] colors = new Color[] {
             Color.red,
@@ -25,7 +26,9 @@ namespace Dungeon
         {
             door = (Door)target;
             doorTiles = door.GetComponent<Tilemap>();
-            keyRenderer = door.transform.Find("Key").GetComponent<SpriteRenderer>();
+            var keySprite = door.transform.Find("Key").Find("Sprite");
+            keyRenderer = keySprite.GetComponent<SpriteRenderer>();
+            keyGlow = keySprite.GetComponent<Light>();
             style.alignment = TextAnchor.MiddleCenter;
             style.fontSize = 16;
             style.normal.textColor = Color.white;
@@ -44,7 +47,7 @@ namespace Dungeon
                 }
             }
             EditorGUILayout.EndHorizontal();
-            keyRenderer.color = doorTiles.color;
+            keyRenderer.color = keyGlow.color = doorTiles.color;
             PrefabUtility.RecordPrefabInstancePropertyModifications(doorTiles);
         }
     }

@@ -22,7 +22,7 @@ namespace Dungeon
             PlayerBaseParent = player.transform.parent;
             boxCollider = player.GetComponent<BoxCollider2D>();
             groundCheckOffset = Vector2.down * boxCollider.bounds.extents.y;
-            groundCheckSize = new Vector2(boxCollider.size.x * 0.95f, 0.01f);
+            groundCheckSize = new Vector2(boxCollider.size.x * 0.95f, 0.05f);
         }
     }
 }
