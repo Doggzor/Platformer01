@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Dungeon
 {
+    [SelectionBase]
     public class Player : MonoBehaviour
     {
         public PlayerStateMachine StateMachine { get; private set; }
