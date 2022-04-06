@@ -24,5 +24,14 @@ namespace Dungeon
             groundCheckOffset = Vector2.down * boxCollider.bounds.extents.y;
             groundCheckSize = new Vector2(boxCollider.size.x * 0.95f, 0.05f);
         }
+
+        public IEnumerator Co_NotifyWhenMovementStarts()
+        {
+            float startDirection = player.PlayerInput.directionX;
+            float startJumpPressedTime = player.PlayerInput.jumpPressTime;
+            while (player.PlayerInput.directionX == 0f && player.StateMachine.CurrentState != player.StateMachine.Jumping)
+                yield return null;
+            Actions.PlayerStartedMoving?.Invoke();
+        }
     }
 }

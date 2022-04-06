@@ -19,7 +19,7 @@ namespace Dungeon
         {
             if (player.Utilities.HasFacingDirectionChanged)
             {
-                player.Actions.Flip();
+                player.PlayerActions.Flip();
             }
             if (Input.GetKey(KeyCode.LeftControl))
             {
@@ -35,7 +35,7 @@ namespace Dungeon
         }
         public virtual void OnEnter()
         {
-            player.Actions.SetGravity(player.Stats.gravityScale);
+            player.PlayerActions.SetGravity(player.Stats.gravityScale);
         }
         public virtual void OnExit()
         {

@@ -8,7 +8,7 @@ namespace Dungeon
         public PlayerStateMachine StateMachine { get; private set; }
         private PlayerState State => StateMachine.CurrentState;
         public PlayerUtilities Utilities { get; private set; }
-        public PlayerActions Actions { get; private set; }
+        public PlayerActions PlayerActions { get; private set; }
 
         [SerializeField, Space]
         private PlayerSkinSO Skin;
@@ -21,12 +21,13 @@ namespace Dungeon
         {
             StateMachine = new PlayerStateMachine(this);
             Utilities = new PlayerUtilities(this);
-            Actions = new PlayerActions(this);
+            PlayerActions = new PlayerActions(this);
 
             //ApplySkin();
         }
         private void Start()
         {
+            StartCoroutine(Utilities.Co_NotifyWhenMovementStarts());
         }
         private void Update()
         {

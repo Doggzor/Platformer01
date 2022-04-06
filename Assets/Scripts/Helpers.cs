@@ -26,7 +26,7 @@ public static class Helpers
     {
         Vector3 normal = pointClockwise ? Vector3.back : Vector3.forward;
         Vector2 from = Vector2.up.RotatedByAngleZ(rotation);
-        UnityEditor.Handles.ArrowHandleCap(1, arcPosition + from * arcRadius * 1.1f, Quaternion.FromToRotation(normal, from.RotatedByAngleZ(90.0f)), 0.5f, EventType.Repaint);
+        UnityEditor.Handles.ArrowHandleCap(1, arcPosition + 1.1f * arcRadius * from, Quaternion.FromToRotation(normal, from.RotatedByAngleZ(90.0f)), 0.5f, EventType.Repaint);
         UnityEditor.Handles.DrawSolidArc(arcPosition, normal, from, arcAngle, arcRadius);
     }
 }

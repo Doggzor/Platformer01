@@ -17,14 +17,14 @@ namespace Dungeon
         {
             base.OnEnter();
             timeSinceJump = Time.time;
-            player.Actions.Jump();
+            player.PlayerActions.Jump();
         }
         public override void ProcessInput()
         {
             base.ProcessInput();
             if (player.PlayerInput.jumpReleaseTime > timeSinceJump)
             {
-                player.Actions.SetGravity(player.Stats.gravityScale * player.Stats.gravityJumpCutMultiplier);
+                player.PlayerActions.SetGravity(player.Stats.gravityScale * player.Stats.gravityJumpCutMultiplier);
             }
             if (rb.velocity.y < 0f)
             {

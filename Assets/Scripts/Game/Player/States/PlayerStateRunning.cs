@@ -17,7 +17,7 @@ namespace Dungeon
         }
         public override void UpdatePhysics()
         {
-            player.Actions.Move();
+            player.PlayerActions.Move();
         }
         public override void Animate()
         {

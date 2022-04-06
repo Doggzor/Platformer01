@@ -28,7 +28,7 @@ namespace Dungeon
         }
         public override void OnEnter()
         {
-            player.Actions.SetGravity(0f);
+            player.PlayerActions.SetGravity(0f);
             rb.velocity = Vector2.zero;
             player.GetComponent<BoxCollider2D>().enabled = false;
         }

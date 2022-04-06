@@ -10,14 +10,13 @@ namespace Dungeon
         private readonly Player player;
         private readonly Rigidbody2D rb;
         private readonly BoxCollider2D collider;
-        private readonly Vector2 flipVector = new Vector2(-1.0f, 1.0f);
         public PlayerActions(Player p)
         {
             player = p;
             rb = p.GetComponent<Rigidbody2D>();
             collider = p.GetComponent<BoxCollider2D>();
         }
-        public void Flip() => player.transform.localScale *= flipVector;
+        public void Flip() => player.transform.localScale *= (Vector2.left + Vector2.up);
         public void SetGravity(float value) => rb.gravityScale = value;
         public void Move()
         {

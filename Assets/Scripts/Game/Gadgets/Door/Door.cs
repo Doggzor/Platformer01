@@ -10,7 +10,7 @@ namespace Dungeon
     {
         private bool isFading = false;
         private Tilemap tiles;
-        private float fadeOutTimer = 0.7f;
+        private readonly float fadeOutTimer = 0.7f;
         private Color currentColor;
         private float alphaPercentage;
         private void Awake()

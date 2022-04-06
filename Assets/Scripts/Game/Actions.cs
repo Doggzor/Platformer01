@@ -4,6 +4,8 @@ namespace Dungeon
 {
     public static class Actions
     {
-        public static Action<Key> OnCollectKey;
+        public static Action<Key> OnCollectKey; //Unused
+        public static Action PlayerStartedMoving;
+        public static Action PlayerReachedGoal;
     }
 }

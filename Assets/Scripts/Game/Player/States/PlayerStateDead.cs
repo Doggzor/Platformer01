@@ -20,7 +20,7 @@ namespace Dungeon
         public override void OnEnter()
         {
             base.OnEnter();
-            player.StartCoroutine(player.Actions.Co_TriggerDeath());
+            player.StartCoroutine(player.PlayerActions.Co_TriggerDeath());
         }
 
 

@@ -19,7 +19,7 @@ namespace Dungeon
         public override void OnEnter()
         {
             base.OnEnter();
-            player.Actions.Bounce(bounceForce);
+            player.PlayerActions.Bounce(bounceForce);
         }
         public override void ProcessInput()
         {

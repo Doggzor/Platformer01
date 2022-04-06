@@ -9,7 +9,7 @@ namespace Dungeon
         public PlayerStateFalling(PlayerStateMachine stateMachine, Player p) : base(stateMachine, p) {}
         public override void OnEnter()
         {
-            player.Actions.SetGravity(player.Stats.gravityScale * player.Stats.gravityFallMultiplier);
+            player.PlayerActions.SetGravity(player.Stats.gravityScale * player.Stats.gravityFallMultiplier);
         }
         public override void OnExit()
         {
